@@ -113,6 +113,7 @@ This README will guide you how to clone this repo and have it running locally on
 
 1. Add your name and email in the list below using VSCode and save your changes:
 
+    - AJ Clemente <aj.clemente@sootds.com>
     - *add yours here*
     - *so on*
     - *and so on*
