@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ReactElement, memo } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 import { Home } from '../containers';
 
 // Component
-const Index: FunctionComponent = (): ReactElement => <Home />;
+const IndexPage: FunctionComponent = () => <Home />;
 
-export default memo(Index);
+export default memo(IndexPage);

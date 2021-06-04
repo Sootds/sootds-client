@@ -1,7 +1,7 @@
-import React, { FunctionComponent, ReactElement, memo } from 'react';
+import React, { FunctionComponent, memo } from 'react';
 
 // Component
-const Home: FunctionComponent = (): ReactElement => (
+const Home: FunctionComponent = () => (
   <div>
     <p>Hello!</p>
   </div>
