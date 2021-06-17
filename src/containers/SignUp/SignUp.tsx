@@ -1,4 +1,4 @@
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent, useState, memo } from 'react';
 import NextLink from 'next/link';
 import {
   Flex,
@@ -16,6 +16,23 @@ import { navbarHeight } from '../../shared/constants';
 
 // Component
 const SignUp: FunctionComponent = () => {
+  const signUpUser = async (): Promise<void> => {
+    const rawResponse = await fetch('http://localhost:4000/api/auth/signup', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        firstName: 'hello',
+        lastName: 'hi',
+        email: 'hello.hi@email.com'
+      })
+    });
+    const json = await rawResponse.json();
+    console.log(json);
+  };
+
   return (
     <Flex
       height='fit-content'
@@ -66,7 +83,12 @@ const SignUp: FunctionComponent = () => {
             <Input type='password' />
           </FormControl>
         </Box>
-        <Button width={{ base: '80%', sm: '75%', md: '70%' }} backgroundColor='black' color='white'>
+        <Button
+          onClick={signUpUser}
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
           Sign In
         </Button>
         <NextLink href='/signin'>
