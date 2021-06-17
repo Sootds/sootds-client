@@ -1,19 +1,18 @@
 import React from 'react';
 import { render } from '@testing-library/react';
 import Layout from './Layout';
+import { ChakraThemeProviderTest } from '../../../shared/components';
 
 describe('<Layout />', (): void => {
   it('should render a <div>', (): void => {
-    const component = render(<Layout />);
-    expect(component.container.querySelector('div')).toBeInTheDocument();
-  });
-
-  it('should render a "hello"', (): void => {
     const component = render(
       <Layout>
-        <p>hello</p>
-      </Layout>
+        <p data-testid='p'>hello</p>
+      </Layout>,
+      {
+        wrapper: ChakraThemeProviderTest
+      }
     );
-    expect(component.container.firstChild.textContent).toBe('hello');
+    expect(component.getByTestId('p').textContent).toBe('hello');
   });
 });
