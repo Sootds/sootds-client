@@ -1,10 +1,14 @@
 import React, { FunctionComponent, memo } from 'react';
+import { Box } from '@chakra-ui/react';
 
 // Component
 const Home: FunctionComponent = () => (
-  <div>
-    <p>Hello!</p>
-  </div>
+  <Box>
+    <p>Home page!</p>
+  </Box>
 );
+
+// Display Names
+Home.displayName = Home.name;
 
 export default memo(Home);
