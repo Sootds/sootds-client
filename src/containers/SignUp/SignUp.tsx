@@ -30,25 +30,6 @@ const SignUp: FunctionComponent = () => {
     resolver: joiResolver(SignUpFormSchema)
   });
 
-  // const signUpUser = async (): Promise<void> => {
-  //   const rawResponse = await fetch('http://localhost:4000/api/auth/signup', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       firstName: 'hello',
-  //       lastName: 'hi',
-  //       email: 'hello.hi@email.com'
-  //     })
-  //   });
-  //   const json = await rawResponse.json();
-  //   console.log(json);
-  // };
-
-  console.log(process.env.NEXT_PUBLIC_SERVER_API_ROUTE);
-
   const onFormSubmit = useCallback<SubmitHandler<SignUpFormType>>(async (data): Promise<void> => {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/signup`, {
       method: 'POST',
