@@ -1,2 +1,2 @@
 export * from './SignUpFormSchema';
-export * from './ConfirmAccountFormSchema';
+export * from './VerifyAccountFormSchema';

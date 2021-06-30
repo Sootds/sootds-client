@@ -1,6 +1,5 @@
 // EXTERNAL IMPORTS
 import React, { FunctionComponent, memo } from 'react';
-import NextLink from 'next/link';
 import {
   Flex,
   Stack,
@@ -18,24 +17,24 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 // LOCAL IMPORTS
-import { ConfirmAccountFormType } from '../../types';
-import { ConfirmAccountFormSchema } from '../../schemas';
+import { VerifyAccountFormType } from '../../types';
+import { VerifyAccountFormSchema } from '../../schemas';
 
 // Types
 type PropsType = {
-  onConfirmAccountFormSubmit: SubmitHandler<ConfirmAccountFormType>;
+  onVerifyAccountFormSubmit: SubmitHandler<VerifyAccountFormType>;
 };
 
 // Component
-const ConfirmAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
-  const { register, formState, handleSubmit } = useForm<ConfirmAccountFormType>({
-    resolver: joiResolver(ConfirmAccountFormSchema)
+const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
+  const { register, formState, handleSubmit } = useForm<VerifyAccountFormType>({
+    resolver: joiResolver(VerifyAccountFormSchema)
   });
 
   return (
     <Stack
       as='form'
-      onSubmit={handleSubmit(props.onConfirmAccountFormSubmit)}
+      onSubmit={handleSubmit(props.onVerifyAccountFormSubmit)}
       width='100%'
       alignItems='center'
       spacing='4'
@@ -68,6 +67,6 @@ const ConfirmAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
 };
 
 // Display Name
-ConfirmAccountForm.displayName = ConfirmAccountForm.name;
+VerifyAccountForm.displayName = VerifyAccountForm.name;
 
-export default memo(ConfirmAccountForm);
+export default memo(VerifyAccountForm);

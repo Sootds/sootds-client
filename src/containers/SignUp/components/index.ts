@@ -1,2 +1,2 @@
 export { default as SignUpForm } from './SignUpForm';
-export { default as ConfirmAccountForm } from './ConfirmAccountForm';
+export { default as VerifyAccountForm } from './VerifyAccountForm';

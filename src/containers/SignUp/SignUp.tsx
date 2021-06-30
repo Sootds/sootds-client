@@ -7,41 +7,74 @@ import { SubmitHandler } from 'react-hook-form';
 import { navbarHeight } from '../../shared/constants';
 
 // LOCAL IMPORTS
-import { SignUpForm, ConfirmAccountForm } from './components';
-import { SignUpFormType, ConfirmAccountFormType } from './types';
+import { SignUpForm, VerifyAccountForm } from './components';
+import { SignUpFormType, VerifyAccountFormType } from './types';
+
+// Types
+type UserType = {
+  userName: string;
+  firstName: string;
+};
 
 // Component
 const SignUp: FunctionComponent = () => {
   const [step, setStep] = useState<number>(0);
+  const [user, setUser] = useState<UserType | null>(null);
 
   const onSignUpFormSubmit = useCallback<SubmitHandler<SignUpFormType>>(
     async (data): Promise<void> => {
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/signup`, {
-      //   method: 'POST',
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json'
-      //   },
-      //   body: JSON.stringify({
-      //     user_name: data.user_name,
-      //     first_name: data.first_name,
-      //     last_name: data.last_name,
-      //     email: data.email,
-      //     password: data.password
-      //   })
-      // });
-      // const json = await response.json();
-      // console.log(data);
-      setStep(1);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_name: data.user_name,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          password: data.password
+        })
+      });
+
+      if (response.ok) {
+        setUser({
+          userName: data.user_name,
+          firstName: data.first_name
+        });
+        setStep(1);
+      } else {
+        console.log('ERROR: Sign up failed.');
+      }
     },
     []
   );
 
-  const onConfirmAccountFormSubmit = useCallback<SubmitHandler<ConfirmAccountFormType>>(
+  const onVerifyAccountFormSubmit = useCallback<SubmitHandler<VerifyAccountFormType>>(
     async (data): Promise<void> => {
-      setStep(0);
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/verify-account`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_name: user.userName,
+            confirmation_code: data.confirmation_code
+          })
+        }
+      );
+
+      if (response.ok) {
+        setStep(2);
+      } else {
+        console.log('ERROR: Account confirmation failed.');
+      }
     },
-    []
+    [user]
   );
 
   return (
@@ -67,7 +100,7 @@ const SignUp: FunctionComponent = () => {
         )}
         {step == 1 && (
           <Fade in={true}>
-            <ConfirmAccountForm onConfirmAccountFormSubmit={onConfirmAccountFormSubmit} />
+            <VerifyAccountForm onVerifyAccountFormSubmit={onVerifyAccountFormSubmit} />
           </Fade>
         )}
       </Flex>

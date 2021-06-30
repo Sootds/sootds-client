@@ -1,2 +1,2 @@
 export * from './SignUpFormType';
-export * from './ConfirmAccountFormType';
+export * from './VerifyAccountFormType';
