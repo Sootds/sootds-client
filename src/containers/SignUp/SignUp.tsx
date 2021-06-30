@@ -1,5 +1,6 @@
 // EXTERNAL IMPORTS
 import React, { FunctionComponent, useState, useCallback, memo } from 'react';
+import { useRouter } from 'next/router';
 import { Flex, Fade } from '@chakra-ui/react';
 import { SubmitHandler } from 'react-hook-form';
 
@@ -7,8 +8,9 @@ import { SubmitHandler } from 'react-hook-form';
 import { navbarHeight } from '../../shared/constants';
 
 // LOCAL IMPORTS
-import { SignUpForm, VerifyAccountForm } from './components';
+import { SignUpForm, VerifyAccountForm, SignUpComplete } from './components';
 import { SignUpFormType, VerifyAccountFormType } from './types';
+import { SIGN_UP_STEPS } from './constants';
 
 // Types
 type UserType = {
@@ -18,8 +20,9 @@ type UserType = {
 
 // Component
 const SignUp: FunctionComponent = () => {
-  const [step, setStep] = useState<number>(0);
+  const [signUpStep, setSignUpStep] = useState<number>(SIGN_UP_STEPS.SIGN_UP_FORM);
   const [user, setUser] = useState<UserType | null>(null);
+  const router = useRouter();
 
   const onSignUpFormSubmit = useCallback<SubmitHandler<SignUpFormType>>(
     async (data): Promise<void> => {
@@ -43,7 +46,7 @@ const SignUp: FunctionComponent = () => {
           userName: data.user_name,
           firstName: data.first_name
         });
-        setStep(1);
+        setSignUpStep(1);
       } else {
         console.log('ERROR: Sign up failed.');
       }
@@ -69,13 +72,17 @@ const SignUp: FunctionComponent = () => {
       );
 
       if (response.ok) {
-        setStep(2);
+        setSignUpStep(2);
       } else {
         console.log('ERROR: Account confirmation failed.');
       }
     },
     [user]
   );
+
+  const onSignUpCompleteClick = useCallback<() => void>((): void => {
+    router.push('/signin');
+  }, []);
 
   return (
     <Flex
@@ -93,14 +100,19 @@ const SignUp: FunctionComponent = () => {
         boxShadow={{ base: 'none', md: 'md' }}
         transition='height 1s ease-in'
       >
-        {step == 0 && (
+        {signUpStep == SIGN_UP_STEPS.SIGN_UP_FORM && (
           <Fade in={true}>
             <SignUpForm onSignUpFormSubmit={onSignUpFormSubmit} />
           </Fade>
         )}
-        {step == 1 && (
+        {signUpStep == SIGN_UP_STEPS.VERIFY_ACCOUNT_FORM && (
           <Fade in={true}>
             <VerifyAccountForm onVerifyAccountFormSubmit={onVerifyAccountFormSubmit} />
+          </Fade>
+        )}
+        {signUpStep == SIGN_UP_STEPS.SIGN_UP_COMPLETE && (
+          <Fade in={true}>
+            <SignUpComplete onSignUpCompleteClick={onSignUpCompleteClick} />
           </Fade>
         )}
       </Flex>
