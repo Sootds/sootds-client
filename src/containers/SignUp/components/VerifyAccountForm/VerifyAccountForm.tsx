@@ -59,6 +59,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
     [props.user]
   );
 
+  // TO DO: Add components for 410 and 400 status codes.
   return (
     <Stack
       as='form'
