@@ -1,5 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo } from 'react';
+import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
 import NextLink from 'next/link';
 import {
   Flex,
@@ -18,12 +18,14 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 // LOCAL IMPORTS
-import { SignUpFormType } from '../../types';
+import { UserType, SignUpFormType } from '../../types';
 import { SignUpFormSchema } from '../../schemas';
+import { SIGN_UP_STEPS } from '../../constants';
 
 // Types
 type PropsType = {
-  onSignUpFormSubmit: SubmitHandler<SignUpFormType>;
+  setUser: Dispatch<UserType | null>
+  setSignUpStep: Dispatch<number>;
 };
 
 // Component
@@ -32,10 +34,40 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
     resolver: joiResolver(SignUpFormSchema)
   });
 
+  const onSignUpFormSubmit = useCallback<SubmitHandler<SignUpFormType>>(
+    async (data): Promise<void> => {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/signup`, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          user_name: data.user_name,
+          first_name: data.first_name,
+          last_name: data.last_name,
+          email: data.email,
+          password: data.password
+        })
+      });
+
+      if (response.ok) {
+        props.setUser({
+          userName: data.user_name,
+          firstName: data.first_name
+        });
+        props.setSignUpStep(SIGN_UP_STEPS.VERIFY_ACCOUNT_FORM);
+      } else {
+        console.log('ERROR: Sign up failed.');
+      }
+    },
+    []
+  );
+
   return (
     <Stack
       as='form'
-      onSubmit={handleSubmit(props.onSignUpFormSubmit)}
+      onSubmit={handleSubmit(onSignUpFormSubmit)}
       width='100%'
       alignItems='center'
       spacing='4'

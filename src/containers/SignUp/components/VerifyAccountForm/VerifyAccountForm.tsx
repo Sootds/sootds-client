@@ -1,5 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo } from 'react';
+import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
 import {
   Flex,
   Stack,
@@ -11,18 +11,20 @@ import {
   FormErrorMessage,
   Input,
   Button,
-  Link
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 // LOCAL IMPORTS
-import { VerifyAccountFormType } from '../../types';
+import { UserType, VerifyAccountFormType } from '../../types';
 import { VerifyAccountFormSchema } from '../../schemas';
+import { SIGN_UP_STEPS } from '../../constants';
 
 // Types
 type PropsType = {
-  onVerifyAccountFormSubmit: SubmitHandler<VerifyAccountFormType>;
+  user: UserType;
+  setUser: Dispatch<UserType | null>;
+  setSignUpStep: Dispatch<number>;
 };
 
 // Component
@@ -31,10 +33,36 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
     resolver: joiResolver(VerifyAccountFormSchema)
   });
 
+  const onVerifyAccountFormSubmit = useCallback<SubmitHandler<VerifyAccountFormType>>(
+    async (data): Promise<void> => {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/verify-account`,
+        {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            user_name: props.user.userName,
+            confirmation_code: data.confirmation_code
+          })
+        }
+      );
+
+      if (response.ok) {
+        props.setSignUpStep(SIGN_UP_STEPS.SIGN_UP_COMPLETE);
+      } else {
+        console.log('ERROR: Account confirmation failed.');
+      }
+    },
+    [props.user]
+  );
+
   return (
     <Stack
       as='form'
-      onSubmit={handleSubmit(props.onVerifyAccountFormSubmit)}
+      onSubmit={handleSubmit(onVerifyAccountFormSubmit)}
       width='100%'
       alignItems='center'
       spacing='4'
