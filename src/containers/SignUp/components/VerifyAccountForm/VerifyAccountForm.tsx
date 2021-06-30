@@ -41,7 +41,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
     >
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Verify your account</Heading>
-        <Text textAlign='center'>Check your email for a confirmation code</Text>
+        <Text textAlign='center'>Check your email for a confirmation code.</Text>
       </Flex>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
