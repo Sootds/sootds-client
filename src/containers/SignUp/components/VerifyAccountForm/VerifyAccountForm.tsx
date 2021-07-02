@@ -44,7 +44,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            user_name: props.user.userName,
+            username: props.user.username,
             confirmation_code: data.confirmation_code
           })
         }

@@ -43,9 +43,8 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          user_name: data.user_name,
-          first_name: data.first_name,
-          last_name: data.last_name,
+          username: data.username,
+          name: data.name,
           email: data.email,
           password: data.password
         })
@@ -53,8 +52,8 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
 
       if (response.ok) {
         props.setUser({
-          userName: data.user_name,
-          firstName: data.first_name
+          username: data.username,
+          name: data.name
         });
         props.setSignUpStep(SIGN_UP_STEPS.VERIFY_ACCOUNT_FORM);
       } else {
@@ -78,29 +77,20 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
       </Flex>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
-          isInvalid={formState.errors.user_name?.message && formState.touchedFields.user_name}
+          isInvalid={formState.errors.username?.message && formState.touchedFields.username}
         >
           <FormLabel>Username</FormLabel>
-          <Input id='user_name' type='text' {...register('user_name')} />
-          <FormErrorMessage>{formState.errors.user_name?.message}</FormErrorMessage>
+          <Input id='username' type='text' {...register('username')} />
+          <FormErrorMessage>{formState.errors.username?.message}</FormErrorMessage>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
-          isInvalid={formState.errors.first_name?.message && formState.touchedFields.first_name}
+          isInvalid={formState.errors.name?.message && formState.touchedFields.name}
         >
-          <FormLabel>First Name</FormLabel>
-          <Input id='first_name' type='text' {...register('first_name')} />
-          <FormErrorMessage>{formState.errors.first_name?.message}</FormErrorMessage>
-        </FormControl>
-      </Box>
-      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
-        <FormControl
-          isInvalid={formState.errors.last_name?.message && formState.touchedFields.last_name}
-        >
-          <FormLabel>Last Name</FormLabel>
-          <Input id='last_name' type='text' {...register('last_name')} />
-          <FormErrorMessage>{formState.errors.last_name?.message}</FormErrorMessage>
+          <FormLabel>Name</FormLabel>
+          <Input id='name' type='text' {...register('name')} />
+          <FormErrorMessage>{formState.errors.name?.message}</FormErrorMessage>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>

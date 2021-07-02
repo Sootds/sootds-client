@@ -1,26 +1,18 @@
 import Joi from 'joi';
 
 export const SignUpFormSchema = Joi.object().keys({
-  user_name: Joi.string().alphanum().min(3).max(30).empty().empty().required().messages({
+  username: Joi.string().alphanum().min(3).max(30).empty().required().messages({
     'string.alphanum': 'Username must be alpanumeric.',
     'string.min': 'Username length must be 3 or greater.',
     'string.max': 'Username length must be 30 or less.',
     'string.empty': 'Username cannot be empty.',
     'any.required': 'Username is required.'
   }),
-  first_name: Joi.string().alphanum().min(3).max(30).empty().required().messages({
-    'string.alphanum': 'First name must be alpanumeric.',
-    'string.min': 'First name length must be 3 or greater.',
-    'string.max': 'First name length must be 30 or less.',
-    'string.empty': 'First name cannot be empty.',
-    'any.required': 'First name is required.'
-  }),
-  last_name: Joi.string().alphanum().min(3).max(30).empty().required().messages({
-    'string.alphanum': 'Last name must be alpanumeric.',
-    'string.min': 'Last name length must be 3 or greater.',
-    'string.max': 'Last name length must be 30 or less.',
-    'string.empty': 'Last name cannot be empty.',
-    'any.required': 'Last name is required.'
+  name: Joi.string().min(3).max(60).empty().required().messages({
+    'string.min': 'Name length must be 3 or greater.',
+    'string.max': 'Name length must be 60 or less.',
+    'string.empty': 'Name cannot be empty.',
+    'any.required': 'Name is required.'
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
