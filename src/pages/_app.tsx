@@ -1,12 +1,19 @@
 import React, { FunctionComponent, Fragment, memo } from 'react';
 import { AppProps } from 'next/app';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { Layout } from '../shared/components';
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps'
+
+const theme = extendTheme({
+  components: {
+    Steps,
+  },
+});
 
 // Component
 const App: FunctionComponent<AppProps> = (props: AppProps) => (
   <Fragment>
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Layout>
         <props.Component {...props.pageProps} />
       </Layout>
