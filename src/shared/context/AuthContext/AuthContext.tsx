@@ -24,7 +24,6 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 // Component
 const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
 
   const signIn = useCallback(async (username: string, password: string): Promise<void> => {
@@ -34,7 +33,6 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
       const idTokenDecoded: IdTokenDecodedType = jwtDecode(json.id_token);
 
       setAccessToken(json.access_token);
-      setRefreshToken(json.refresh_token);
       setUser({
         username: idTokenDecoded['cognito:username'],
         email: idTokenDecoded.email,
@@ -52,12 +50,11 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
 
   const signOut = useCallback(async (): Promise<void> => {
     setAccessToken(null);
-    setRefreshToken(null);
     setUser(null);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ accessToken, refreshToken, user, signIn, signOut }}>
+    <AuthContext.Provider value={{ accessToken, user, signIn, signOut }}>
       {props.children}
     </AuthContext.Provider>
   );
