@@ -56,7 +56,7 @@ const SignInForm: FunctionComponent = () => {
     >
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Ready to get started?</Heading>
-        <Text textAlign='center'>Sign Up Now</Text>
+        <Text textAlign='center'>Sign In Now</Text>
       </Flex>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
