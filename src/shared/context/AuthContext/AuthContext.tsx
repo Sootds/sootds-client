@@ -7,38 +7,54 @@ import React, {
   useCallback,
   memo
 } from 'react';
+import jwtDecode from 'jwt-decode';
+
+// LOCAL IMPORTS
+import { UserType, AuthContextType, SignInResponseType, IdTokenDecodedType } from './types';
+import { signInFetcher } from './fetchers';
 
 // Types
-type User = {
-  username: string;
-  email: string;
-  name: string;
-  isEmailVerified: boolean;
-};
-
-type AuthContext = {
-  accessToken: string;
-  refreshToken: string; // TO DO: Move this somewhere else.
-  user: User;
-  signIn: (username: string, password: string) => Promise<void>;
-  signOut: () => Promise<void>;
-};
-
-type Props = {
+type PropsType = {
   children?: ReactNode;
 };
 
 // Context
-export const AuthContext = createContext<AuthContext | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 // Component
-const AuthContextProvider: FunctionComponent<Props> = (props: Props) => {
+const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [refreshToken, setRefreshToken] = useState<string | null>(null);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
 
-  const signIn = useCallback(async (username: string, password: string): Promise<void> => {}, []);
-  const signOut = useCallback(async (): Promise<void> => {}, []);
+  const signIn = useCallback(async (username: string, password: string): Promise<void> => {
+    const response = await signInFetcher(username, password);
+    if (response.ok) {
+      const json: SignInResponseType = await response.json();
+      const idTokenDecoded: IdTokenDecodedType = jwtDecode(json.id_token);
+
+      setAccessToken(json.access_token);
+      setRefreshToken(json.refresh_token);
+      setUser({
+        username: idTokenDecoded['cognito:username'],
+        email: idTokenDecoded.email,
+        name: idTokenDecoded.name,
+        isEmailVerified: idTokenDecoded.email_verified
+      });
+    } else {
+      switch (response.status) {
+        case 401:
+        default:
+          break;
+      }
+    }
+  }, []);
+
+  const signOut = useCallback(async (): Promise<void> => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setUser(null);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ accessToken, refreshToken, user, signIn, signOut }}>
