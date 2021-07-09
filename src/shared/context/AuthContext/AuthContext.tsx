@@ -88,7 +88,7 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
     const idToken = getIdToken();
     const accessToken = getAccessToken();
 
-    const refreshTokens = async (idToken: string, accessToken: string): Promise<void> => {
+    const signOutUser = async (idToken: string, accessToken: string): Promise<void> => {
       const response = await signOutFetcher(idToken, accessToken);
       if (response.ok) {
         removeAccessToken();
@@ -98,7 +98,7 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
       }
     };
 
-    refreshTokens(idToken, accessToken);
+    signOutUser(idToken, accessToken);
   }, []);
 
   return (
