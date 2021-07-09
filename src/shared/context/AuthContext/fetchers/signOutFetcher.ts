@@ -1,8 +1,8 @@
 // SHARED IMPORTS
-import { POST_AUTH_REFRESH_TOKEN } from '../../../constants';
+import { POST_AUTH_SIGNOUT } from '../../../constants';
 
-export const verifyTokenFetcher = async (id_token: string, access_token: string): Promise<Response> =>
-  await fetch(POST_AUTH_REFRESH_TOKEN, {
+export const signOutFetcher = async (id_token: string, access_token: string): Promise<Response> =>
+  await fetch(POST_AUTH_SIGNOUT, {
     method: 'POST',
     credentials: 'include',
     headers: {

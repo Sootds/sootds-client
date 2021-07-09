@@ -12,8 +12,15 @@ import jwtDecode from 'jwt-decode';
 
 // LOCAL IMPORTS
 import { UserType, AuthContextType, SignInResponseType, IdTokenDecodedType } from './types';
-import { signInFetcher, verifyTokenFetcher } from './fetchers';
-import { persistAccessToken, persistIdToken, getAccessToken, getIdToken } from './utils';
+import { signInFetcher, verifyTokenFetcher, signOutFetcher } from './fetchers';
+import {
+  persistAccessToken,
+  persistIdToken,
+  getAccessToken,
+  getIdToken,
+  removeAccessToken,
+  removeIdToken
+} from './utils';
 
 // Types
 type PropsType = {
@@ -29,11 +36,11 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
   const [user, setUser] = useState<UserType | null>(null);
 
   useEffect((): void => {
-    const accessToken = getAccessToken();
     const idToken = getIdToken();
+    const accessToken = getAccessToken();
 
-    const refreshTokens = async (accessToken: string, idToken: string): Promise<void> => {
-      const response = await verifyTokenFetcher(accessToken, idToken);
+    const refreshTokens = async (idToken: string, accessToken: string): Promise<void> => {
+      const response = await verifyTokenFetcher(idToken, accessToken);
       if (response.ok) {
         const idTokenDecoded: IdTokenDecodedType = jwtDecode(idToken);
         setAccessToken(accessToken);
@@ -43,15 +50,13 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
           name: idTokenDecoded.name,
           isEmailVerified: idTokenDecoded.email_verified
         });
-        console.log('signed in');
       } else {
         setAccessToken(null);
         setUser(null);
-        console.log('no tokens');
       }
     };
 
-    refreshTokens(accessToken, idToken);
+    refreshTokens(idToken, accessToken);
   }, []);
 
   const signIn = useCallback(async (username: string, password: string): Promise<void> => {
@@ -80,8 +85,20 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
   }, []);
 
   const signOut = useCallback(async (): Promise<void> => {
-    setAccessToken(null);
-    setUser(null);
+    const idToken = getIdToken();
+    const accessToken = getAccessToken();
+
+    const refreshTokens = async (idToken: string, accessToken: string): Promise<void> => {
+      const response = await signOutFetcher(idToken, accessToken);
+      if (response.ok) {
+        removeAccessToken();
+        removeIdToken();
+        setAccessToken(null);
+        setUser(null);
+      }
+    };
+
+    refreshTokens(idToken, accessToken);
   }, []);
 
   return (
