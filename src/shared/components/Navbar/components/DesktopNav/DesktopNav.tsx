@@ -18,11 +18,13 @@ const DesktopNav: FunctionComponent = () => {
     <Fragment>
       <Stack display={{ base: 'none', lg: 'flex' }} direction='row' spacing='8'>
         {navLinks.map((navLink: NavLink, index: number) =>
-          authContext.user && !navLink.showIfAuth ? null : (
+          (authContext.user && navLink.showIfAuth) ||
+          (!authContext.user && navLink.showIfNotAuth) || 
+          (!authContext.user && navLink.showIfAuth && navLink.showIfNotAuth) ? (
             <NavItem key={index} href={navLink.pageRoute}>
               {navLink.pageName}
             </NavItem>
-          )
+          ) : null
         )}
       </Stack>
     </Fragment>

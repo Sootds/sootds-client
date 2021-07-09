@@ -44,11 +44,13 @@ const MobileNav: FunctionComponent = () => {
           <DrawerBody>
             <Stack direction='column' spacing='4'>
               {navLinks.map((navLink: NavLink, index: number) =>
-                authContext.user && !navLink.showIfAuth ? null : (
+                (authContext.user && navLink.showIfAuth) ||
+                (!authContext.user && navLink.showIfNotAuth) ||
+                (!authContext.user && navLink.showIfAuth && navLink.showIfNotAuth) ? (
                   <NavItem key={index} href={navLink.pageRoute}>
                     {navLink.pageName}
                   </NavItem>
-                )
+                ) : null
               )}
             </Stack>
           </DrawerBody>
