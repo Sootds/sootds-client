@@ -1,9 +1,10 @@
 // SHARED IMPORTS
 import { POST_AUTH_SIGNIN } from '../../../constants';
 
-export const signInFetcher = async (username: string, password: string) =>
+export const signInFetcher = async (username: string, password: string): Promise<Response> =>
   await fetch(POST_AUTH_SIGNIN, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'
