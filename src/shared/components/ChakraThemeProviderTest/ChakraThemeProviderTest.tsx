@@ -1,13 +1,14 @@
+// EXTERNAL IMPORTS
 import React, { FunctionComponent, ReactNode, memo } from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 
 // Types
-type Props = {
+type PropsType = {
   children?: ReactNode;
 };
 
 // Component
-const ChakraThemeProviderTest: FunctionComponent<Props> = (props: Props) => (
+const ChakraThemeProviderTest: FunctionComponent<PropsType> = (props: PropsType) => (
   <ChakraProvider>{props.children}</ChakraProvider>
 );
 

@@ -1,6 +1,5 @@
 // EXTERNAL IMPORTS
 import React, { FunctionComponent, memo } from 'react';
-import NextLink from 'next/link';
 import { Flex, Fade } from '@chakra-ui/react';
 
 // SHARED IMPORTS
@@ -35,7 +34,7 @@ const SignIn: FunctionComponent = () => {
   );
 };
 
-// Display Names
+// Display Name
 SignIn.displayName = SignIn.name;
 
 export default memo(SignIn);

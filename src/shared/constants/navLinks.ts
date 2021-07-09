@@ -1,5 +1,3 @@
-// TO DO: add `isPrivate` to each nav links
-
 export type NavLink = {
   pageRoute: string;
   pageName: string;

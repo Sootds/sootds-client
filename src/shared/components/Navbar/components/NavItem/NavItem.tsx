@@ -1,15 +1,16 @@
+// EXTERNAL IMPORTS
 import React, { ReactNode, FunctionComponent, memo } from 'react';
 import NextLink from 'next/link';
 import { Box, Link } from '@chakra-ui/react';
 
 // Types
-type Props = {
+type PropsType = {
   children?: ReactNode;
   href: string;
 };
 
 // Component
-const NavItem: FunctionComponent<Props> = (props: Props) => (
+const NavItem: FunctionComponent<PropsType> = (props: PropsType) => (
   <Box width='fit-content' height='fit-content' >
     <NextLink href={props.href}>
       <Link>{props.children}</Link>
@@ -17,7 +18,7 @@ const NavItem: FunctionComponent<Props> = (props: Props) => (
   </Box>
 );
 
-// Display Names
+// Display Name
 NavItem.displayName = NavItem.name;
 
 export default memo(NavItem);

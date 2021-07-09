@@ -1,6 +1,5 @@
 // EXTERNAL IMPORTS
 import React, { FunctionComponent, useState, memo } from 'react';
-import { useRouter } from 'next/router';
 import { Flex, Fade } from '@chakra-ui/react';
 
 // SHARED IMPORTS
@@ -52,7 +51,7 @@ const SignUp: FunctionComponent = () => {
   );
 };
 
-// Display Names
+// Display Name
 SignUp.displayName = SignUp.name;
 
 export default memo(SignUp);

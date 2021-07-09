@@ -31,7 +31,7 @@ const DesktopNav: FunctionComponent = () => {
   );
 };
 
-// Display Names
+// Display Name
 DesktopNav.displayName = DesktopNav.name;
 
 export default memo(DesktopNav);

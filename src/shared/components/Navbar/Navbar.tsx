@@ -1,7 +1,12 @@
+// EXTERNAL IMPORTS
 import React, { FunctionComponent, memo } from 'react';
 import { Flex } from '@chakra-ui/react';
-import { Logo, MobileNav, DesktopNav } from './components';
+
+// SHARED IMPORTS
 import { navbarHeight } from '../../constants';
+
+// LOCAL IMPORTS
+import { Logo, MobileNav, DesktopNav } from './components';
 
 // Component
 const Navbar: FunctionComponent = () => (
@@ -24,7 +29,7 @@ const Navbar: FunctionComponent = () => (
   </Flex>
 );
 
-// Display Names
+// Display Name
 Navbar.displayName = Navbar.name;
 
 export default memo(Navbar);

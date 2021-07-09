@@ -60,7 +60,7 @@ const MobileNav: FunctionComponent = () => {
   );
 };
 
-// Display Names
+// Display Name
 MobileNav.displayName = MobileNav.name;
 
 export default memo(MobileNav);

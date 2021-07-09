@@ -19,7 +19,7 @@ const Home: FunctionComponent = () => (
   </Flex>
 );
 
-// Display Names
+// Display Name
 Home.displayName = Home.name;
 
 export default memo(Home);

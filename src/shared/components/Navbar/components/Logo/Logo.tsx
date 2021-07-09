@@ -1,3 +1,4 @@
+// EXTERNAL IMPORTS
 import React, { FunctionComponent, memo } from 'react';
 import { Text } from '@chakra-ui/react';
 
@@ -8,7 +9,7 @@ const Logo: FunctionComponent = () => (
   </Text>
 );
 
-// Display Names
+// Display Name
 Logo.displayName = Logo.name;
 
 export default memo(Logo);
