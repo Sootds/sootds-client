@@ -1,6 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
-import NextLink from 'next/link';
+import React, { FunctionComponent, useContext, useCallback, memo } from 'react';
 import {
   Flex,
   Stack,
@@ -11,11 +10,13 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  Button,
-  Link
+  Button
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+
+// SHARED IMPORTS
+import { AuthContext } from '../../../../shared/context';
 
 // LOCAL IMPORTS
 import { SignInFormType } from '../../types';
@@ -23,33 +24,17 @@ import { SignInFormSchema } from '../../schemas';
 
 // Component
 const SignInForm: FunctionComponent = () => {
-  const { register, formState, handleSubmit } = useForm<SignInFormType>({
-    resolver: joiResolver(SignInFormSchema)
-  });
+  const authContext = useContext(AuthContext);
+  const signInForm = useForm<SignInFormType>({ resolver: joiResolver(SignInFormSchema) });
 
   const onSignInSubmit = useCallback<SubmitHandler<SignInFormType>>(async (data): Promise<void> => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/signin`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username: data.username,
-        password: data.password
-      })
-    });
-
-    if (response.ok) {
-    } else {
-      console.log('ERROR: Sign up failed.');
-    }
+    authContext.signIn(data.username, data.password);
   }, []);
 
   return (
     <Stack
       as='form'
-      onSubmit={handleSubmit(onSignInSubmit)}
+      onSubmit={signInForm.handleSubmit(onSignInSubmit)}
       width='100%'
       alignItems='center'
       spacing='4'
@@ -60,20 +45,26 @@ const SignInForm: FunctionComponent = () => {
       </Flex>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
-          isInvalid={formState.errors.username?.message && formState.touchedFields.username}
+          isInvalid={
+            signInForm.formState.errors.username?.message &&
+            signInForm.formState.touchedFields.username
+          }
         >
           <FormLabel>Username</FormLabel>
-          <Input id='username' type='text' {...register('username')} />
-          <FormErrorMessage>{formState.errors.username?.message}</FormErrorMessage>
+          <Input id='username' type='text' {...signInForm.register('username')} />
+          <FormErrorMessage>{signInForm.formState.errors.username?.message}</FormErrorMessage>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
-          isInvalid={formState.errors.password?.message && formState.touchedFields.password}
+          isInvalid={
+            signInForm.formState.errors.password?.message &&
+            signInForm.formState.touchedFields.password
+          }
         >
           <FormLabel>Password</FormLabel>
-          <Input id='password' type='password' {...register('password')} />
-          <FormErrorMessage>{formState.errors.password?.message}</FormErrorMessage>
+          <Input id='password' type='password' {...signInForm.register('password')} />
+          <FormErrorMessage>{signInForm.formState.errors.password?.message}</FormErrorMessage>
         </FormControl>
       </Box>
       <Button

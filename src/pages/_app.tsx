@@ -1,23 +1,30 @@
+// EXTERNAL IMPORTS
 import React, { FunctionComponent, Fragment, memo } from 'react';
 import { AppProps } from 'next/app';
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
-import { Layout } from '../shared/components';
-import { StepsStyleConfig as Steps } from 'chakra-ui-steps'
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 
+// LOCAL IMPORTS
+import { AuthContextProvider } from '../shared/context';
+import { Layout } from '../shared/components';
+
+// Extend Chakra Theme
 const theme = extendTheme({
   components: {
-    Steps,
-  },
+    Steps
+  }
 });
 
 // Component
 const App: FunctionComponent<AppProps> = (props: AppProps) => (
   <Fragment>
-    <ChakraProvider theme={theme}>
-      <Layout>
-        <props.Component {...props.pageProps} />
-      </Layout>
-    </ChakraProvider>
+    <AuthContextProvider>
+      <ChakraProvider theme={theme}>
+        <Layout>
+          <props.Component {...props.pageProps} />
+        </Layout>
+      </ChakraProvider>
+    </AuthContextProvider>
   </Fragment>
 );
 

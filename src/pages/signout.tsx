@@ -1,23 +1,21 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo, useContext } from 'react';
+import { FunctionComponent, memo, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 // SHARED IMPORTS
 import { AuthContext } from '../shared/context';
-
-// LOCAL IMPORTS
-import { SignUp } from '../containers';
 
 // Component
 const SignUpPage: FunctionComponent = () => {
   const router = useRouter();
   const authContext = useContext(AuthContext);
 
-  if (authContext.user) {
+  useEffect((): void => {
+    authContext.signOut();
     router.push('/');
-  }
+  }, []);
 
-  return <SignUp />;
+  return null;
 };
 
 // Display Name
