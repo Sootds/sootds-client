@@ -1,11 +1,22 @@
+// EXTERNAL IMPORTS
 import React, { FunctionComponent, memo } from 'react';
-import { Box } from '@chakra-ui/react';
+import { Flex, Heading } from '@chakra-ui/react';
+
+// SHARED IMPORTS
+import { navbarHeight } from '../../shared/constants';
 
 // Component
 const Home: FunctionComponent = () => (
-  <Box>
-    <p>Home page!</p>
-  </Box>
+  <Flex
+    height='fit-content'
+    minHeight={`calc(100vh - ${navbarHeight})`}
+    justifyContent='center'
+    alignItems='center'
+  >
+    <Heading as='h1' textAlign='center' fontSize={{ base: '3xl', md: '4xl', lg: '6xl' }}>
+      Welcome to Sootds!
+    </Heading>
+  </Flex>
 );
 
 // Display Names

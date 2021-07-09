@@ -1,7 +1,15 @@
+// EXTERNAL IMPORTS
 import React, { FunctionComponent, memo } from 'react';
+
+// LOCAL IMPORTS
 import { Home } from '../containers';
 
 // Component
-const IndexPage: FunctionComponent = () => <Home />;
+const HomePage: FunctionComponent = () => {
+  return <Home />;
+};
 
-export default memo(IndexPage);
+// Display Name
+HomePage.displayName = HomePage.name;
+
+export default memo(HomePage);
