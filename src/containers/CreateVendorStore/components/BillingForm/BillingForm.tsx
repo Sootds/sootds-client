@@ -1,4 +1,5 @@
-import React from 'react';
+// EXTERNAL IMPORTS
+import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 import {
   Flex,
@@ -19,10 +20,41 @@ import {
   InputRightElement,
   InputGroup
 } from '@chakra-ui/react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
 
-const Billing = () => {
+// LOCAL IMPORTS
+import { BillingFormType } from '../../types';
+import { BillingFormSchema } from '../../schemas';
+import { VENDOR_STEPS } from '../../constants';
+import ProgressBar from '../ProgressBar';
+
+// Types
+type PropsType = {
+  setVendorStep: Dispatch<number>;
+};
+
+const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
+  // const { register, formState, handleSubmit } = useForm<BillingFormType>({
+  //   resolver: joiResolver(BillingFormSchema)
+  // });
+
+  const onBillingFormSubmit = useCallback<SubmitHandler<BillingFormType>>(
+    async (data): Promise<void> => {
+  
+    },
+    []
+  );
+
   return (
-    <>
+    <Stack
+      as='form'
+      // onSubmit={handleSubmit(onBillingFormSubmit)}
+      width='100%'
+      alignItems='center'
+      spacing='4'
+    >
+      <ProgressBar vendorStep={VENDOR_STEPS.BILLING_FORM} />
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Billing</Heading>
         <Text textAlign='center'>Let us know how you'll get paid.</Text>
@@ -50,21 +82,19 @@ const Billing = () => {
               <Box>
                 <FormControl>
                   <FormLabel>Card Number</FormLabel>
-                  <Input type='text'/>
+                  <Input type='text' />
                 </FormControl>
               </Box>
               <Stack direction={['column', 'column', 'row']}>
                 <Box flex='1'>
                   <FormControl>
                     <FormLabel>Expiration Date</FormLabel>
-                    <Select placeholder='Month'>
-                    </Select>
+                    <Select placeholder='Month'></Select>
                   </FormControl>
                 </Box>
                 <Box flex='1'>
                   <FormControl mt='8'>
-                    <Select placeholder='Year'>
-                    </Select>
+                    <Select placeholder='Year'></Select>
                   </FormControl>
                 </Box>
                 <Box flex='1'>
@@ -91,8 +121,12 @@ const Billing = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    </>
+    </Stack>
   );
 };
 
-export default Billing;
+// Display Name
+BillingForm.displayName = BillingForm.name;
+
+export default memo(BillingForm);
+
