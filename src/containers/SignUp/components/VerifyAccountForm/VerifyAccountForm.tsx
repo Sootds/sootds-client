@@ -1,5 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
+import React, { Dispatch, FunctionComponent, useState, useCallback, memo } from 'react';
 import {
   Flex,
   Stack,
@@ -11,6 +11,8 @@ import {
   FormErrorMessage,
   Input,
   Button,
+  Spinner,
+  Skeleton
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -29,12 +31,15 @@ type PropsType = {
 
 // Component
 const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { register, formState, handleSubmit } = useForm<VerifyAccountFormType>({
     resolver: joiResolver(VerifyAccountFormSchema)
   });
 
   const onVerifyAccountFormSubmit = useCallback<SubmitHandler<VerifyAccountFormType>>(
     async (data): Promise<void> => {
+      setIsLoading(true);
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/verify-account`,
         {
@@ -55,6 +60,8 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
       } else {
         console.log('ERROR: Account confirmation failed.');
       }
+
+      setIsLoading(false);
     },
     [props.user]
   );
@@ -78,19 +85,33 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
             formState.errors.confirmation_code?.message && formState.touchedFields.confirmation_code
           }
         >
-          <FormLabel>Confirmation Code</FormLabel>
-          <Input id='confirmation_code' type='text' {...register('confirmation_code')} />
-          <FormErrorMessage>{formState.errors.confirmation_code?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!isLoading}>
+            <FormLabel>Confirmation Code</FormLabel>
+            <Input id='confirmation_code' type='text' {...register('confirmation_code')} />
+            <FormErrorMessage>{formState.errors.confirmation_code?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
-      <Button
-        type='submit'
-        width={{ base: '80%', sm: '75%', md: '70%' }}
-        backgroundColor='black'
-        color='white'
-      >
-        Verify
-      </Button>
+
+      {isLoading ? (
+        <Button
+          type='button'
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
+          <Spinner color='white' />
+        </Button>
+      ) : (
+        <Button
+          type='submit'
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
+          Verify
+        </Button>
+      )}
     </Stack>
   );
 };
