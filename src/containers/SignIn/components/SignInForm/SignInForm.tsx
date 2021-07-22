@@ -10,7 +10,9 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  Button
+  Button,
+  Spinner,
+  Skeleton
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -50,9 +52,11 @@ const SignInForm: FunctionComponent = () => {
             signInForm.formState.touchedFields.username
           }
         >
-          <FormLabel>Username</FormLabel>
-          <Input id='username' type='text' {...signInForm.register('username')} />
-          <FormErrorMessage>{signInForm.formState.errors.username?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!authContext.isLoading}>
+            <FormLabel>Username</FormLabel>
+            <Input id='username' type='text' {...signInForm.register('username')} />
+            <FormErrorMessage>{signInForm.formState.errors.username?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
@@ -62,19 +66,32 @@ const SignInForm: FunctionComponent = () => {
             signInForm.formState.touchedFields.password
           }
         >
-          <FormLabel>Password</FormLabel>
-          <Input id='password' type='password' {...signInForm.register('password')} />
-          <FormErrorMessage>{signInForm.formState.errors.password?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!authContext.isLoading}>
+            <FormLabel>Password</FormLabel>
+            <Input id='password' type='password' {...signInForm.register('password')} />
+            <FormErrorMessage>{signInForm.formState.errors.password?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
-      <Button
-        type='submit'
-        width={{ base: '80%', sm: '75%', md: '70%' }}
-        backgroundColor='black'
-        color='white'
-      >
-        Sign In
-      </Button>
+      {authContext.isLoading ? (
+        <Button
+          type='button'
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
+          <Spinner color='white' />
+        </Button>
+      ) : (
+        <Button
+          type='submit'
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
+          Sign In
+        </Button>
+      )}
     </Stack>
   );
 };
