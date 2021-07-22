@@ -32,6 +32,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 // Component
 const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
 
@@ -40,6 +41,8 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
     const accessToken = getAccessToken();
 
     const refreshTokens = async (idToken: string, accessToken: string): Promise<void> => {
+      setIsLoading(true);
+
       const response = await verifyTokenFetcher(idToken, accessToken);
       if (response.ok) {
         const idTokenDecoded: IdTokenDecodedType = jwtDecode(idToken);
@@ -54,12 +57,16 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
         setAccessToken(null);
         setUser(null);
       }
+
+      setIsLoading(false);
     };
 
     refreshTokens(idToken, accessToken);
   }, []);
 
   const signIn = useCallback(async (username: string, password: string): Promise<void> => {
+    setIsLoading(true);
+
     const response = await signInFetcher(username, password);
     if (response.ok) {
       const json: SignInResponseType = await response.json();
@@ -82,6 +89,8 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
           break;
       }
     }
+
+    setIsLoading(false);
   }, []);
 
   const signOut = useCallback(async (): Promise<void> => {
@@ -89,6 +98,8 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
     const accessToken = getAccessToken();
 
     const signOutUser = async (idToken: string, accessToken: string): Promise<void> => {
+      setIsLoading(true);
+
       const response = await signOutFetcher(idToken, accessToken);
       if (response.ok) {
         removeAccessToken();
@@ -96,13 +107,15 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
         setAccessToken(null);
         setUser(null);
       }
+
+      setIsLoading(false);
     };
 
     signOutUser(idToken, accessToken);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ accessToken, user, signIn, signOut }}>
+    <AuthContext.Provider value={{ isLoading, accessToken, user, signIn, signOut }}>
       {props.children}
     </AuthContext.Provider>
   );

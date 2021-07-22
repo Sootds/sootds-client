@@ -1,5 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
+import React, { Dispatch, FunctionComponent, useState, useCallback, memo } from 'react';
 import NextLink from 'next/link';
 import {
   Flex,
@@ -12,7 +12,9 @@ import {
   FormErrorMessage,
   Input,
   Button,
-  Link
+  Link,
+  Spinner,
+  Skeleton
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -24,18 +26,21 @@ import { SIGN_UP_STEPS } from '../../constants';
 
 // Types
 type PropsType = {
-  setUser: Dispatch<UserType | null>
+  setUser: Dispatch<UserType | null>;
   setSignUpStep: Dispatch<number>;
 };
 
 // Component
 const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { register, formState, handleSubmit } = useForm<SignUpFormType>({
     resolver: joiResolver(SignUpFormSchema)
   });
 
   const onSignUpFormSubmit = useCallback<SubmitHandler<SignUpFormType>>(
     async (data): Promise<void> => {
+      setIsLoading(true);
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/signup`, {
         method: 'POST',
         headers: {
@@ -59,6 +64,8 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
       } else {
         console.log('ERROR: Sign up failed.');
       }
+
+      setIsLoading(false);
     },
     []
   );
@@ -79,34 +86,40 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
         <FormControl
           isInvalid={formState.errors.username?.message && formState.touchedFields.username}
         >
-          <FormLabel>Username</FormLabel>
-          <Input id='username' type='text' {...register('username')} />
-          <FormErrorMessage>{formState.errors.username?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!isLoading}>
+            <FormLabel>Username</FormLabel>
+            <Input id='username' type='text' {...register('username')} />
+            <FormErrorMessage>{formState.errors.username?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
-        <FormControl
-          isInvalid={formState.errors.name?.message && formState.touchedFields.name}
-        >
-          <FormLabel>Name</FormLabel>
-          <Input id='name' type='text' {...register('name')} />
-          <FormErrorMessage>{formState.errors.name?.message}</FormErrorMessage>
+        <FormControl isInvalid={formState.errors.name?.message && formState.touchedFields.name}>
+          <Skeleton isLoaded={!isLoading}>
+            <FormLabel>Name</FormLabel>
+            <Input id='name' type='text' {...register('name')} />
+            <FormErrorMessage>{formState.errors.name?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl isInvalid={formState.errors.email?.message && formState.touchedFields.email}>
-          <FormLabel>Email</FormLabel>
-          <Input id='email' type='email' {...register('email')} />
-          <FormErrorMessage>{formState.errors.email?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!isLoading}>
+            <FormLabel>Email</FormLabel>
+            <Input id='email' type='email' {...register('email')} />
+            <FormErrorMessage>{formState.errors.email?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={formState.errors.password?.message && formState.touchedFields.password}
         >
-          <FormLabel>Password</FormLabel>
-          <Input id='password' type='password' {...register('password')} />
-          <FormErrorMessage>{formState.errors.password?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!isLoading}>
+            <FormLabel>Password</FormLabel>
+            <Input id='password' type='password' {...register('password')} />
+            <FormErrorMessage>{formState.errors.password?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
@@ -115,19 +128,33 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
             formState.errors.confirm_password?.message && formState.touchedFields.confirm_password
           }
         >
-          <FormLabel>Confirm Password</FormLabel>
-          <Input id='confirm_password' type='password' {...register('confirm_password')} />
-          <FormErrorMessage>{formState.errors.confirm_password?.message}</FormErrorMessage>
+          <Skeleton isLoaded={!isLoading}>
+            <FormLabel>Confirm Password</FormLabel>
+            <Input id='confirm_password' type='password' {...register('confirm_password')} />
+            <FormErrorMessage>{formState.errors.confirm_password?.message}</FormErrorMessage>
+          </Skeleton>
         </FormControl>
       </Box>
-      <Button
-        type='submit'
-        width={{ base: '80%', sm: '75%', md: '70%' }}
-        backgroundColor='black'
-        color='white'
-      >
-        Sign Up
-      </Button>
+      {isLoading ? (
+        <Button
+          type='button'
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
+          <Spinner color='white' />
+        </Button>
+      ) : (
+        <Button
+          type='submit'
+          width={{ base: '80%', sm: '75%', md: '70%' }}
+          backgroundColor='black'
+          color='white'
+        >
+          Sign Up
+        </Button>
+      )}
+
       <NextLink href='/signin'>
         <Link>Already have an account?</Link>
       </NextLink>
