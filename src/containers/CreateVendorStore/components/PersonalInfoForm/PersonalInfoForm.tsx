@@ -35,7 +35,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
 
   const onPersonalInfoFormSubmit = useCallback<SubmitHandler<PersonalInfoFormType>>(
     async (data): Promise<void> => {
-      // const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/`, {
+      // const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/personal-info`, {
       //   method: 'POST',
       //   headers: {
       //     Accept: 'application/json',
@@ -77,7 +77,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
         <Heading textAlign='center'>Personal Information</Heading>
         <Text textAlign='center'>Let's get started! Tell us about yourself.</Text>
       </Flex>
-      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', sm: '75%', md: '70%' }}>
         <Box flex='1'>
           <FormControl
             isInvalid={formState.errors.first_name?.message && formState.touchedFields.first_name}
@@ -97,7 +97,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           </FormControl>
         </Box>
       </Stack>
-      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', sm: '75%', md: '70%' }}>
         <Box flex='1'>
           <FormControl isInvalid={formState.errors.month?.message && formState.touchedFields.month}>
             <FormLabel>Date of Birth</FormLabel>
@@ -109,7 +109,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
         </Box>
         <Box flex='1'>
           <FormControl
-            mt='8'
+            mt={{ base: '8', md: '8', sm: '4'}}
             isInvalid={formState.errors.date?.message && formState.touchedFields.date}
           >
             <Select placeholder='Date' {...register('date')}>
@@ -120,7 +120,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
         </Box>
         <Box flex='1'>
           <FormControl
-            mt='8'
+            mt={{ base: '8', md: '8', sm: '4'}}
             isInvalid={formState.errors.year?.message && formState.touchedFields.year}
           >
             <Select placeholder='Year' {...register('year')}>
@@ -131,7 +131,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
         </Box>
       </Stack>
 
-      <Box width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={formState.errors.address1?.message && formState.touchedFields.address1}
         >
@@ -140,7 +140,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           <FormErrorMessage>{formState.errors.address1?.message}</FormErrorMessage>
         </FormControl>
       </Box>
-      <Box width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={formState.errors.address2?.message && formState.touchedFields.address2}
         >
@@ -149,7 +149,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           <FormErrorMessage>{formState.errors.address2?.message}</FormErrorMessage>
         </FormControl>
       </Box>
-      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', sm: '75%', md: '70%' }}>
         <Box flex='1'>
           <FormControl isInvalid={formState.errors.city?.message && formState.touchedFields.city}>
             <FormLabel>City</FormLabel>
@@ -169,7 +169,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           </FormControl>
         </Box>
       </Stack>
-      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Stack direction={['column', 'column', 'row']} width={{ base: '80%', sm: '75%', md: '70%' }}>
         <Box flex='1'>
           <FormControl
             isInvalid={formState.errors.province?.message && formState.touchedFields.province}
@@ -189,7 +189,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           </FormControl>
         </Box>
       </Stack>
-      <Button type='submit' bg='black' color='white' width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Button type='submit' bg='black' color='white' width={{ base: '80%', sm: '75%', md: '70%' }}>
         Next
       </Button>
     </Stack>

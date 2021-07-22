@@ -12,7 +12,8 @@ import {
   Input,
   InputGroup,
   InputLeftAddon,
-  FormErrorMessage
+  FormErrorMessage,
+  InputRightElement
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -35,10 +36,11 @@ const VerifyPhoneForm: FunctionComponent<PropsType> = (props: PropsType) => {
     resolver: joiResolver(VerifyPhoneFormSchema)
   });
 
+
   const onVerifyPhoneFormSubmit = useCallback<SubmitHandler<VerifyPhoneFormType>>(
     async (data): Promise<void> => {
       // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/`,
+      //   `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/verify-phone`,
       //   {
       //     method: 'POST',
       //     headers: {
@@ -61,6 +63,12 @@ const VerifyPhoneForm: FunctionComponent<PropsType> = (props: PropsType) => {
     []
   );
 
+  const handleSend = () => {
+    if ( formState.errors.phone_number ) {
+      setIsSent(true)
+    }
+  }
+
   return (
     <Stack
       as='form'
@@ -74,7 +82,7 @@ const VerifyPhoneForm: FunctionComponent<PropsType> = (props: PropsType) => {
         <Heading textAlign='center'>Verification</Heading>
         <Text textAlign='center'>Verify your email address and phone number.</Text>
       </Flex>
-      <Box width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={formState.errors.phone_number?.message && formState.touchedFields.phone_number}
         >
@@ -87,15 +95,17 @@ const VerifyPhoneForm: FunctionComponent<PropsType> = (props: PropsType) => {
               placeholder='phone number'
               {...register('phone_number')}
             />
+              <Button type='submit' width='6rem' bg='gray.600' color='white' ml={2} onClick={handleSend}>
+                {isSent ? 'Resend' : 'Send'}
+              </Button>
           </InputGroup>
           <FormErrorMessage>{formState.errors.phone_number?.message}</FormErrorMessage>
         </FormControl>
       </Box>
-      <Box width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={
-            formState.errors.confirmation_code?.message &&
-            formState.touchedFields.confirmation_code
+            formState.errors.confirmation_code?.message && formState.touchedFields.confirmation_code
           }
         >
           <Input
@@ -107,27 +117,14 @@ const VerifyPhoneForm: FunctionComponent<PropsType> = (props: PropsType) => {
           <FormErrorMessage>{formState.errors.confirmation_code?.message}</FormErrorMessage>
         </FormControl>
       </Box>
-      {isSent ? (
-        <>
-          <Button
-            type='submit'
-            backgroundColor='black'
-            color='white'
-            width={{ base: '80%', md: '75%', sm: '70%' }}
-          >
-            Next
-          </Button>
-        </>
-      ) : (
         <Button
+          type='submit'
           backgroundColor='black'
           color='white'
-          onClick={() => setIsSent(true)}
-          width={{ base: '80%', md: '75%', sm: '70%' }}
+          width={{ base: '80%', sm: '75%', md: '70%' }}
         >
-          Send Verification Code
+          Next
         </Button>
-      )}
     </Stack>
   );
 };
