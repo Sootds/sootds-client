@@ -8,11 +8,11 @@ import { navbarHeight } from '../../shared/constants';
 // LOCAL IMPORTS
 import { SignUpForm, VerifyAccountForm, SignUpComplete } from './components';
 import { UserType } from './types';
-import { SIGN_UP_STEPS } from './constants';
+import { SignUpSteps } from './enums';
 
 // Component
 const SignUp: FunctionComponent = () => {
-  const [signUpStep, setSignUpStep] = useState<number>(SIGN_UP_STEPS.SIGN_UP_FORM);
+  const [step, setStep] = useState<SignUpSteps>(SignUpSteps.SignUpForm);
   const [user, setUser] = useState<UserType | null>(null);
 
   return (
@@ -31,17 +31,17 @@ const SignUp: FunctionComponent = () => {
         boxShadow={{ base: 'none', md: 'md' }}
         transition='height 1s ease-in'
       >
-        {signUpStep == SIGN_UP_STEPS.SIGN_UP_FORM && (
+        {step == SignUpSteps.SignUpForm && (
           <Fade in={true}>
-            <SignUpForm setUser={setUser} setSignUpStep={setSignUpStep} />
+            <SignUpForm setUser={setUser} setStep={setStep} />
           </Fade>
         )}
-        {signUpStep == SIGN_UP_STEPS.VERIFY_ACCOUNT_FORM && (
+        {step == SignUpSteps.VerifyAccountForm && (
           <Fade in={true}>
-            <VerifyAccountForm user={user} setUser={setUser} setSignUpStep={setSignUpStep} />
+            <VerifyAccountForm user={user} setUser={setUser} setStep={setStep} />
           </Fade>
         )}
-        {signUpStep == SIGN_UP_STEPS.SIGN_UP_COMPLETE && (
+        {step == SignUpSteps.SignUpComplete && (
           <Fade in={true}>
             <SignUpComplete />
           </Fade>

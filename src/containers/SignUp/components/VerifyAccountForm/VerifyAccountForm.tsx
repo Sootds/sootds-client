@@ -20,13 +20,13 @@ import { joiResolver } from '@hookform/resolvers/joi';
 // LOCAL IMPORTS
 import { UserType, VerifyAccountFormType } from '../../types';
 import { VerifyAccountFormSchema } from '../../schemas';
-import { SIGN_UP_STEPS } from '../../constants';
+import { SignUpSteps } from '../../enums';
 
 // Types
 type PropsType = {
   user: UserType;
   setUser: Dispatch<UserType | null>;
-  setSignUpStep: Dispatch<number>;
+  setStep: Dispatch<SignUpSteps>;
 };
 
 // Component
@@ -56,7 +56,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
       );
 
       if (response.ok) {
-        props.setSignUpStep(SIGN_UP_STEPS.SIGN_UP_COMPLETE);
+        props.setStep(SignUpSteps.SignUpComplete);
       } else {
         console.log('ERROR: Account confirmation failed.');
       }

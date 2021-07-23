@@ -22,12 +22,12 @@ import { joiResolver } from '@hookform/resolvers/joi';
 // LOCAL IMPORTS
 import { UserType, SignUpFormType } from '../../types';
 import { SignUpFormSchema } from '../../schemas';
-import { SIGN_UP_STEPS } from '../../constants';
+import { SignUpSteps } from '../../enums';
 
 // Types
 type PropsType = {
   setUser: Dispatch<UserType | null>;
-  setSignUpStep: Dispatch<number>;
+  setStep: Dispatch<SignUpSteps>;
 };
 
 // Component
@@ -60,7 +60,7 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
           username: data.username,
           name: data.name
         });
-        props.setSignUpStep(SIGN_UP_STEPS.VERIFY_ACCOUNT_FORM);
+        props.setStep(SignUpSteps.VerifyAccountForm);
       } else {
         console.log('ERROR: Sign up failed.');
       }

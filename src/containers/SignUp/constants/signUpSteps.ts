@@ -1,5 +1,0 @@
-export const SIGN_UP_STEPS = {
-  SIGN_UP_FORM: 0,
-  VERIFY_ACCOUNT_FORM: 1,
-  SIGN_UP_COMPLETE: 2
-};
