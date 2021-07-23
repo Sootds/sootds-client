@@ -95,9 +95,11 @@ const SignInForm: FunctionComponent = () => {
         </Button>
       )}
 
-      <NextLink href='/forgot-password'>
-        <Link>Forgot password?</Link>
-      </NextLink>
+      <Skeleton isLoaded={!authContext.isLoading}>
+        <NextLink href='/forgot-password'>
+          <Link>Forgot password?</Link>
+        </NextLink>
+      </Skeleton>
     </Stack>
   );
 };

@@ -155,9 +155,11 @@ const SignUpForm: FunctionComponent<PropsType> = (props: PropsType) => {
         </Button>
       )}
 
-      <NextLink href='/signin'>
-        <Link>Already have an account?</Link>
-      </NextLink>
+      <Skeleton isLoaded={!isLoading}>
+        <NextLink href='/signin'>
+          <Link>Already have an account?</Link>
+        </NextLink>
+      </Skeleton>
     </Stack>
   );
 };
