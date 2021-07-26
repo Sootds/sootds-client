@@ -86,7 +86,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
           }
         >
           <Skeleton isLoaded={!isLoading}>
-            <FormLabel>Confirmation Code</FormLabel>
+            <FormLabel>Verification Code</FormLabel>
             <Input id='confirmation_code' type='text' {...register('confirmation_code')} />
             <FormErrorMessage>{formState.errors.confirmation_code?.message}</FormErrorMessage>
           </Skeleton>
