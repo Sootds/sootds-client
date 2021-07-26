@@ -1,5 +1,6 @@
 // EXTERNAL IMPORTS
 import React, { FunctionComponent, useContext, useCallback, memo } from 'react';
+import NextLink from 'next/link';
 import {
   Flex,
   Stack,
@@ -11,6 +12,7 @@ import {
   FormErrorMessage,
   Input,
   Button,
+  Link,
   Spinner,
   Skeleton
 } from '@chakra-ui/react';
@@ -92,6 +94,12 @@ const SignInForm: FunctionComponent = () => {
           Sign In
         </Button>
       )}
+
+      <Skeleton isLoaded={!authContext.isLoading}>
+        <NextLink href='/forgot-password'>
+          <Link>Forgot password?</Link>
+        </NextLink>
+      </Skeleton>
     </Stack>
   );
 };
