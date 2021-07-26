@@ -61,7 +61,9 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
       setIsLoading(false);
     };
 
-    refreshTokens(idToken, accessToken);
+    if (idToken && accessToken) {
+      refreshTokens(idToken, accessToken);
+    }
   }, []);
 
   const signIn = useCallback(async (username: string, password: string): Promise<void> => {
