@@ -1,3 +1,3 @@
 export type VerifyAccountFormType = {
-  confirmation_code: string;
+  verification_code: string;
 };

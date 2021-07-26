@@ -50,7 +50,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
           },
           body: JSON.stringify({
             username: props.user.username,
-            confirmation_code: data.confirmation_code
+            verification_code: data.verification_code
           })
         }
       );
@@ -58,7 +58,7 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
       if (response.ok) {
         props.setStep(SignUpSteps.SignUpComplete);
       } else {
-        console.log('ERROR: Account confirmation failed.');
+        console.log('ERROR: Account verification failed.');
       }
 
       setIsLoading(false);
@@ -77,18 +77,18 @@ const VerifyAccountForm: FunctionComponent<PropsType> = (props: PropsType) => {
     >
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Verify your account</Heading>
-        <Text textAlign='center'>Check your email for a confirmation code.</Text>
+        <Text textAlign='center'>Check your email for a verification code.</Text>
       </Flex>
       <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={
-            formState.errors.confirmation_code?.message && formState.touchedFields.confirmation_code
+            formState.errors.verification_code?.message && formState.touchedFields.verification_code
           }
         >
           <Skeleton isLoaded={!isLoading}>
             <FormLabel>Verification Code</FormLabel>
-            <Input id='confirmation_code' type='text' {...register('confirmation_code')} />
-            <FormErrorMessage>{formState.errors.confirmation_code?.message}</FormErrorMessage>
+            <Input id='verification_code' type='text' {...register('verification_code')} />
+            <FormErrorMessage>{formState.errors.verification_code?.message}</FormErrorMessage>
           </Skeleton>
         </FormControl>
       </Box>
