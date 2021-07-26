@@ -12,7 +12,7 @@ import jwtDecode from 'jwt-decode';
 
 // LOCAL IMPORTS
 import { UserType, AuthContextType, SignInResponseType, IdTokenDecodedType } from './types';
-import { signInFetcher, verifyTokenFetcher, signOutFetcher } from './fetchers';
+import { SignInFetcher, VerifyTokensFetcher, SignOutFetcher } from './fetchers';
 import {
   persistAccessToken,
   persistIdToken,
@@ -43,7 +43,7 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
     const refreshTokens = async (idToken: string, accessToken: string): Promise<void> => {
       setIsLoading(true);
 
-      const response = await verifyTokenFetcher(idToken, accessToken);
+      const response = await VerifyTokensFetcher(idToken, accessToken);
       if (response.ok) {
         const idTokenDecoded: IdTokenDecodedType = jwtDecode(idToken);
         setAccessToken(accessToken);
@@ -69,7 +69,7 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
   const signIn = useCallback(async (username: string, password: string): Promise<void> => {
     setIsLoading(true);
 
-    const response = await signInFetcher(username, password);
+    const response = await SignInFetcher(username, password);
     if (response.ok) {
       const json: SignInResponseType = await response.json();
       const idTokenDecoded: IdTokenDecodedType = jwtDecode(json.id_token);
@@ -102,7 +102,7 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
     const signOutUser = async (idToken: string, accessToken: string): Promise<void> => {
       setIsLoading(true);
 
-      const response = await signOutFetcher(idToken, accessToken);
+      const response = await SignOutFetcher(idToken, accessToken);
       if (response.ok) {
         removeAccessToken();
         removeIdToken();
