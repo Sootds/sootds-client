@@ -63,7 +63,7 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
         isFitted
         variant='solid-rounded'
         colorScheme='gray'
-        width={{ base: '80%', sm: '75%', md: '80%' }}
+        width={{ base: '80%', md: '75%', sm: '70%' }}
       >
         <TabList marginY='4'>
           <Tab>Credit Card</Tab>
@@ -88,12 +88,12 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
               <Stack direction={['column', 'column', 'row']}>
                 <Box flex='1'>
                   <FormControl>
-                    <FormLabel>Expiration Date</FormLabel>
+                    <FormLabel>Expiry Date</FormLabel>
                     <Select placeholder='Month'></Select>
                   </FormControl>
                 </Box>
                 <Box flex='1'>
-                  <FormControl mt='8'>
+                  <FormControl mt={{ base: '8', md: '8', sm: '4'}}>
                     <Select placeholder='Year'></Select>
                   </FormControl>
                 </Box>
