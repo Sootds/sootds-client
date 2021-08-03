@@ -35,7 +35,7 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
   const onStoreFormSubmit = useCallback<SubmitHandler<StoreFormType>>(
     async (data): Promise<void> => {
       // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/`,
+      //   `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/store`,
       //   {
       //     method: 'POST',
       //     headers: {
@@ -43,7 +43,8 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
       //       'Content-Type': 'application/json'
       //     },
       //     body: JSON.stringify({
-
+      //       store_name: data.store_name,
+      //       store_description: data.store_description
       //     })
       //   }
       // );
@@ -70,7 +71,7 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
         <Heading textAlign='center'>Store Setup</Heading>
         <Text textAlign='center'>Create your own shop and start selling on Sootds.</Text>
       </Flex>
-      <Box width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={formState.errors.store_name?.message && formState.touchedFields.store_name}
         >
@@ -84,7 +85,7 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
           <FormErrorMessage>{formState.errors.store_name?.message}</FormErrorMessage>
         </FormControl>
       </Box>
-      <Box width={{ base: '80%', md: '75%', sm: '70%' }}>
+      <Box width={{ base: '80%', sm: '75%', md: '70%' }}>
         <FormControl
           isInvalid={
             formState.errors.store_description?.message && formState.touchedFields.store_description
@@ -97,7 +98,7 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
       </Box>
       <Button
         type='submit'
-        width={{ base: '80%', md: '75%', sm: '70%' }}
+        width={{ base: '80%', sm: '75%', md: '70%' }}
         backgroundColor='black'
         color='white'
       >
