@@ -78,12 +78,22 @@ const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => 
       persistIdToken(json.id_token);
 
       setAccessToken(json.access_token);
-      setUser({
-        username: idTokenDecoded['cognito:username'],
-        email: idTokenDecoded.email,
-        name: idTokenDecoded.name,
-        isEmailVerified: idTokenDecoded.email_verified
-      });
+      setUser(
+        'first_sign_in' in json
+          ? {
+              username: idTokenDecoded['cognito:username'],
+              email: idTokenDecoded.email,
+              name: idTokenDecoded.name,
+              isEmailVerified: idTokenDecoded.email_verified,
+              isFirstSignIn: json.first_sign_in
+            } 
+          : {
+              username: idTokenDecoded['cognito:username'],
+              email: idTokenDecoded.email,
+              name: idTokenDecoded.name,
+              isEmailVerified: idTokenDecoded.email_verified
+            }
+      );
     } else {
       switch (response.status) {
         case 401:
