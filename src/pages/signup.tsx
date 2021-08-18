@@ -15,7 +15,7 @@ const SignUpPage: FunctionComponent = () => {
 
   useEffect((): void => {
     if (authContext.user) router.push('/');
-  }, []);
+  }, [authContext.user]);
 
   return <SignUp />;
 };

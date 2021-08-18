@@ -15,7 +15,7 @@ const SignInPage: FunctionComponent = () => {
 
   useEffect((): void => {
     if (authContext.user) router.push('/');
-  }, []);
+  }, [authContext.user]);
 
   return <SignIn />;
 };

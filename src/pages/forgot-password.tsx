@@ -15,7 +15,7 @@ const ForgotPasswordPage: FunctionComponent = () => {
 
   useEffect((): void => {
     if (authContext.user) router.push('/');
-  }, []);
+  }, [authContext.user]);
 
   return <ForgotPassword />;
 };
