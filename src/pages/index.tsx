@@ -1,11 +1,20 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent, memo, useContext } from 'react';
+
+// SHARED IMPORTS
+import { AuthContext } from '../shared/context';
 
 // LOCAL IMPORTS
-import { Home } from '../containers';
+import { Home, FirstSignIn } from '../containers';
 
 // Component
 const HomePage: FunctionComponent = () => {
+  const authContext = useContext(AuthContext);
+
+  if (authContext.user && 'isFirstSignIn' in authContext.user && authContext.user.isFirstSignIn) {
+    return <FirstSignIn />;
+  }
+
   return <Home />;
 };
 
