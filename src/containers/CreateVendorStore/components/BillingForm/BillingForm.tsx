@@ -26,12 +26,12 @@ import { joiResolver } from '@hookform/resolvers/joi';
 // LOCAL IMPORTS
 import { BillingFormType } from '../../types';
 import { BillingFormSchema } from '../../schemas';
-import { VENDOR_STEPS } from '../../constants';
+import { CreateVendorStoreSteps } from '../../enums';
 import ProgressBar from '../ProgressBar';
 
 // Types
 type PropsType = {
-  setVendorStep: Dispatch<number>;
+  setStep: Dispatch<number>;
 };
 
 const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
@@ -40,9 +40,7 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
   // });
 
   const onBillingFormSubmit = useCallback<SubmitHandler<BillingFormType>>(
-    async (data): Promise<void> => {
-  
-    },
+    async (data): Promise<void> => {},
     []
   );
 
@@ -54,7 +52,7 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
       alignItems='center'
       spacing='4'
     >
-      <ProgressBar vendorStep={VENDOR_STEPS.BILLING_FORM} />
+      <ProgressBar step={CreateVendorStoreSteps.BillingForm} />
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Billing</Heading>
         <Text textAlign='center'>Let us know how you'll get paid.</Text>
@@ -93,7 +91,7 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
                   </FormControl>
                 </Box>
                 <Box flex='1'>
-                  <FormControl mt={{ base: '8', md: '8', sm: '4'}}>
+                  <FormControl mt={{ base: '8', md: '8', sm: '4' }}>
                     <Select placeholder='Year'></Select>
                   </FormControl>
                 </Box>
@@ -129,4 +127,3 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
 BillingForm.displayName = BillingForm.name;
 
 export default memo(BillingForm);
-
