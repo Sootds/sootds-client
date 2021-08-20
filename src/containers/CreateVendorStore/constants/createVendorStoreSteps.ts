@@ -1,7 +1,0 @@
-export const VENDOR_STEPS = {
-    PERSONAL_INFO_FORM: 0,
-    VERIFY_PHONE_FORM: 1,
-    STORE_FORM: 2,
-    BILLING_FORM: 3
-  };
-  
