@@ -1,4 +1,6 @@
 export * from './PeronalInfoFormType';
 export * from './VerifyPhoneFormType';
-export * from './StoreFormType';
+export * from './StoreInfoFormType';
 export * from './BillingFormType';
+export * from './PersonalInfoType';
+export * from './StoreInfoType';
