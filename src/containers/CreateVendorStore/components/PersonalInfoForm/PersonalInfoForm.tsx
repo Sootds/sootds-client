@@ -1,5 +1,13 @@
 // EXTERNAL IMPORTS
-import React, { Dispatch, FunctionComponent, useEffect, useCallback, memo } from 'react';
+import React, {
+  Dispatch,
+  FunctionComponent,
+  ReactNode,
+  useEffect,
+  useCallback,
+  useMemo,
+  memo
+} from 'react';
 import {
   Flex,
   Stack,
@@ -11,7 +19,8 @@ import {
   Input,
   Select,
   FormErrorMessage,
-  Button
+  Button,
+  propNames
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -20,6 +29,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { PersonalInfoFormType, PersonalInfoType } from '../../types';
 import { PersonalInfoFormSchema } from '../../schemas';
 import { CreateVendorStoreSteps } from '../../enums';
+import { getMonths, getDays, getYears, getCountries } from '../../utils';
 import ProgressBar from '../ProgressBar';
 
 // Types
@@ -31,7 +41,7 @@ type PropsType = {
 
 // Component
 const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
-  const { register, formState, handleSubmit, setValue } = useForm<PersonalInfoFormType>({
+  const { register, watch, formState, handleSubmit, setValue } = useForm<PersonalInfoFormType>({
     resolver: joiResolver(PersonalInfoFormSchema),
     defaultValues: {
       name: props.personalInfo?.name,
@@ -41,10 +51,18 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
       code: props.personalInfo?.code
     }
   });
+  const watchMonth = watch('month', null);
 
   useEffect((): void => {
-    if (props.personalInfo && 'name' in props.personalInfo) {
-      setValue('name', props.personalInfo.name);
+    if (props.personalInfo) {
+      if ('name' in props.personalInfo) {
+        setValue('name', props.personalInfo.name);
+      }
+      if (props.personalInfo.dateOfBirth) {
+        setValue('day', String(props.personalInfo.dateOfBirth.day));
+        setValue('month', String(props.personalInfo.dateOfBirth.month));
+        setValue('year', String(props.personalInfo.dateOfBirth.year));
+      }
     }
   }, [props.personalInfo]);
 
@@ -67,6 +85,11 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
     },
     []
   );
+
+  const days = useMemo((): number[] => getDays(parseInt(watchMonth) || 1), [watchMonth]);
+  const months = useMemo((): {} => getMonths(), []);
+  const years = useMemo((): number[] => getYears(), []);
+  const countries = useMemo((): {} => getCountries(), []);
 
   return (
     <Stack
@@ -95,9 +118,11 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           <FormControl isInvalid={formState.errors.month?.message && formState.touchedFields.month}>
             <FormLabel>Date of Birth</FormLabel>
             <Select placeholder='Month' id='month' {...register('month')}>
-              {getMonths().map((month: string, index: number) => (
-                <option value={index + 1}>{month}</option>
-              ))}
+              {Object.keys(months).map(
+                (id): ReactNode => (
+                  <option value={id}>{months[id]}</option>
+                )
+              )}
             </Select>
             <FormErrorMessage>{formState.errors.month?.message}</FormErrorMessage>
           </FormControl>
@@ -108,7 +133,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
             isInvalid={formState.errors.day?.message && formState.touchedFields.day}
           >
             <Select placeholder='Day' {...register('day')}>
-              {getDays().map((day: number) => (
+              {days.map((day: number) => (
                 <option value={day}>{day}</option>
               ))}
             </Select>
@@ -121,7 +146,7 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
             isInvalid={formState.errors.year?.message && formState.touchedFields.year}
           >
             <Select placeholder='Year' {...register('year')}>
-              {getYears().map((year: number) => (
+              {years.map((year: number) => (
                 <option value={year}>{year}</option>
               ))}
             </Select>
@@ -152,9 +177,9 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
             isInvalid={formState.errors.country?.message && formState.touchedFields.country}
           >
             <FormLabel>Country</FormLabel>
-            <Select id='country' defaultValue='Canada' {...register('country')}>
-              {getCountries().map((country: string, index: number) => (
-                <option value={index}>{country}</option>
+            <Select id='country' defaultValue={1} {...register('country')}>
+              {Object.keys(countries).map((id) => (
+                <option value={id}>{countries[id]}</option>
               ))}
             </Select>
             <FormErrorMessage>{formState.errors.country?.message}</FormErrorMessage>
@@ -182,40 +207,6 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
       </Button>
     </Stack>
   );
-};
-
-const getMonths = (): string[] => {
-  let months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ];
-  return months;
-};
-
-const getDays = (): number[] => {
-  let days = [];
-  for (let i = 1; i < 32; i++) days.push(i);
-  return days;
-};
-
-const getYears = (): number[] => {
-  let years = [];
-  for (let i = new Date().getFullYear() - 18; i >= 1980; i--) years.push(i);
-  return years;
-};
-
-const getCountries = (): string[] => {
-  return ['Canada', 'U.S.A.'];
 };
 
 // Display Name
