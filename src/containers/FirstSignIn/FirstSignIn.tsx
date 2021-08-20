@@ -14,8 +14,8 @@ const FirstSignIn: FunctionComponent = () => {
     router.push('/marketplace');
   }, []);
 
-  const goToCreateVendorStorePage = useCallback<() => void>((): void => {
-    router.push('/create-vendor-store');
+  const goToBeAVendorPage = useCallback<() => void>((): void => {
+    router.push('/be-a-vendor');
   }, []);
 
   return (
@@ -50,7 +50,7 @@ const FirstSignIn: FunctionComponent = () => {
               Shop Clothes
             </Button>
             <Button
-              onClick={goToCreateVendorStorePage}
+              onClick={goToBeAVendorPage}
               type='button'
               width={{ base: '80%', sm: '75%', md: '70%' }}
               backgroundColor='black'
