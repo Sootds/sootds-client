@@ -17,43 +17,33 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 // LOCAL IMPORTS
-import { StoreFormType } from '../../types';
-import { StoreFormSchema } from '../../schemas';
-import { VENDOR_STEPS } from '../../constants';
+import { StoreInfoFormType, StoreInfoType } from '../../types';
+import { StoreInfoFormSchema } from '../../schemas';
+import { CreateVendorStoreSteps } from '../../enums';
 import ProgressBar from '../ProgressBar';
 
 // Types
 type PropsType = {
-  setVendorStep: Dispatch<number>;
+  setStoreInfo: Dispatch<StoreInfoType | null>;
+  setStep: Dispatch<number>;
 };
 
-const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
-  const { register, formState, handleSubmit } = useForm<StoreFormType>({
-    resolver: joiResolver(StoreFormSchema)
+const StoreInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
+  const { register, formState, handleSubmit } = useForm<StoreInfoFormType>({
+    resolver: joiResolver(StoreInfoFormSchema)
   });
 
-  const onStoreFormSubmit = useCallback<SubmitHandler<StoreFormType>>(
-    async (data): Promise<void> => {
-      // const response = await fetch(
-      //   `${process.env.NEXT_PUBLIC_SERVER_API_ROUTE}/auth/store`,
-      //   {
-      //     method: 'POST',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json'
-      //     },
-      //     body: JSON.stringify({
-      //       store_name: data.store_name,
-      //       store_description: data.store_description
-      //     })
-      //   }
-      // );
+  const onBackButtonClick = useCallback((): void => {
+    props.setStep(CreateVendorStoreSteps.PersonalInfoForm);
+  }, []);
 
-      if (true) {
-        props.setVendorStep(VENDOR_STEPS.BILLING_FORM);
-      } else {
-        console.log('ERROR: failed.');
-      }
+  const onStoreInfoFormSubmit = useCallback<SubmitHandler<StoreInfoFormType>>(
+    async (data): Promise<void> => {
+      props.setStoreInfo({
+        name: data.store_name,
+        description: data.store_description
+      });
+      props.setStep(CreateVendorStoreSteps.BillingForm);
     },
     []
   );
@@ -61,12 +51,12 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
   return (
     <Stack
       as='form'
-      onSubmit={handleSubmit(onStoreFormSubmit)}
+      onSubmit={handleSubmit(onStoreInfoFormSubmit)}
       width='100%'
       alignItems='center'
       spacing='4'
     >
-      <ProgressBar vendorStep={VENDOR_STEPS.STORE_FORM} />
+      <ProgressBar step={CreateVendorStoreSteps.StoreInfoForm} />
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Store Setup</Heading>
         <Text textAlign='center'>Create your own shop and start selling on Sootds.</Text>
@@ -92,23 +82,32 @@ const StoreForm: FunctionComponent<PropsType> = (props: PropsType) => {
           }
         >
           <FormLabel>Store Description</FormLabel>
-          <Textarea placeholder='Enter a description of your store' {...register('store_description')} />
+          <Textarea
+            placeholder='Enter a description of your store'
+            {...register('store_description')}
+          />
           <FormErrorMessage>{formState.errors.store_description?.message}</FormErrorMessage>
         </FormControl>
       </Box>
-      <Button
-        type='submit'
-        width={{ base: '80%', sm: '75%', md: '70%' }}
-        backgroundColor='black'
-        color='white'
-      >
-        Next
-      </Button>
+      <Flex width={{ base: '80%', sm: '75%', md: '70%' }} justifyContent='space-between'>
+        <Button
+          onClick={onBackButtonClick}
+          type='button'
+          width='25%'
+          backgroundColor='black'
+          color='white'
+        >
+          Back
+        </Button>
+        <Button type='submit' width='25%' backgroundColor='black' color='white'>
+          Next
+        </Button>
+      </Flex>
     </Stack>
   );
 };
 
 // Display Name
-StoreForm.displayName = StoreForm.name;
+StoreInfoForm.displayName = StoreInfoForm.name;
 
-export default memo(StoreForm);
+export default memo(StoreInfoForm);
