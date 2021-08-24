@@ -24,26 +24,18 @@ const ProgressBar: FunctionComponent<PropsType> = (props: PropsType) => {
         height='2px'
         marginX={1}
       />
-      <Circle
-        size='35px'
-        bg={props.step > CreateVendorStoreSteps.StoreForm ? 'gray.500' : 'gray.200'}
-        color={props.step > CreateVendorStoreSteps.StoreForm && 'white'}
-      >
-        {props.step > CreateVendorStoreSteps.StoreForm ? <CheckIcon /> : 2}
+      <Circle size='35px' bg='gray.500' color='white'>
+        {props.step > CreateVendorStoreSteps.StoreInfoForm ? <CheckIcon /> : 2}
       </Circle>
       <Progress
         colorScheme='gray'
-        value={props.step > CreateVendorStoreSteps.StoreForm ? 100 : 0}
+        value={props.step > CreateVendorStoreSteps.StoreInfoForm ? 100 : 0}
         width='full'
         height='2px'
         marginX={1}
       />
-      <Circle
-        size='35px'
-        bg={props.step > CreateVendorStoreSteps.BillingForm ? 'gray.500' : 'gray.200'}
-        color={props.step > CreateVendorStoreSteps.BillingForm && 'white'}
-      >
-        {props.step > CreateVendorStoreSteps.BillingForm ? <CheckIcon /> : 3}
+      <Circle size='35px' bg='gray.500' color='white'>
+        {props.step > CreateVendorStoreSteps.BillingInfoForm ? <CheckIcon /> : 3}
       </Circle>
     </Flex>
   );
