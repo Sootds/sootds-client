@@ -52,7 +52,7 @@ const BillingForm: FunctionComponent<PropsType> = (props: PropsType) => {
       alignItems='center'
       spacing='4'
     >
-      <ProgressBar step={CreateVendorStoreSteps.BillingForm} />
+      <ProgressBar step={CreateVendorStoreSteps.BillingInfoForm} />
       <Flex width='100%' height='fit-content' direction='column' alignItems='center'>
         <Heading textAlign='center'>Billing</Heading>
         <Text textAlign='center'>Let us know how you'll get paid.</Text>
