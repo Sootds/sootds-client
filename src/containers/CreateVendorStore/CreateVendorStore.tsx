@@ -7,7 +7,7 @@ import { AuthContext } from '../../shared/context';
 import { navbarHeight } from '../../shared/constants';
 
 // LOCAL IMPORTS
-import { PersonalInfoForm, StoreInfoForm, BillingForm } from './components';
+import { PersonalInfoForm, StoreInfoForm, BillingInfoForm, CreateVendorStoreComplete } from './components';
 import { PersonalInfoType, StoreInfoType } from './types';
 import { CreateVendorStoreSteps } from './enums';
 
@@ -48,17 +48,17 @@ const CreateVendorStore: FunctionComponent = () => {
         )}
         {step == CreateVendorStoreSteps.StoreInfoForm && (
           <Fade in={true}>
-            <StoreInfoForm setStoreInfo={setStoreInfo} setStep={setStep} />
+            <StoreInfoForm storeInfo={storeInfo} setStoreInfo={setStoreInfo} setStep={setStep} />
           </Fade>
         )}
-        {step == CreateVendorStoreSteps.BillingForm && (
+        {step == CreateVendorStoreSteps.BillingInfoForm && (
           <Fade in={true}>
-            <BillingForm setStep={setStep} />
+            <BillingInfoForm setStep={setStep} />
           </Fade>
         )}
         {step == CreateVendorStoreSteps.CreateVendorStoreComplete && (
           <Fade in={true}>
-            <h1>Vendor Store Creation Complete!</h1>
+            <CreateVendorStoreComplete personalInfo={personalInfo} storeInfo={storeInfo} />
           </Fade>
         )}
       </Flex>
