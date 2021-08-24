@@ -1,5 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { Dispatch, FunctionComponent, useCallback, memo } from 'react';
+import React, { Dispatch, FunctionComponent, useEffect, useCallback, memo } from 'react';
 import {
   Flex,
   Heading,
@@ -24,13 +24,25 @@ import ProgressBar from '../ProgressBar';
 
 // Types
 type PropsType = {
+  storeInfo: StoreInfoType | null;
   setStoreInfo: Dispatch<StoreInfoType | null>;
   setStep: Dispatch<number>;
 };
 
 const StoreInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
-  const { register, formState, handleSubmit } = useForm<StoreInfoFormType>({
+  const { register, formState, handleSubmit, setValue } = useForm<StoreInfoFormType>({
     resolver: joiResolver(StoreInfoFormSchema)
+  });
+
+  useEffect((): void => {
+    if (props.storeInfo) {
+      if ('name' in props.storeInfo) {
+        setValue('store_name', props.storeInfo.name);
+      }
+      if ('description' in props.storeInfo) {
+        setValue('store_description', props.storeInfo.description);
+      }
+    }
   });
 
   const onBackButtonClick = useCallback((): void => {
@@ -43,7 +55,7 @@ const StoreInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
         name: data.store_name,
         description: data.store_description
       });
-      props.setStep(CreateVendorStoreSteps.BillingForm);
+      props.setStep(CreateVendorStoreSteps.BillingInfoForm);
     },
     []
   );
