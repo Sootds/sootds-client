@@ -20,7 +20,6 @@ import {
   Select,
   FormErrorMessage,
   Button,
-  propNames
 } from '@chakra-ui/react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
