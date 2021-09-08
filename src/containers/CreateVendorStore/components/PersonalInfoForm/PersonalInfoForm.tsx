@@ -120,7 +120,9 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
             <Select placeholder='Month' id='month' {...register('month')}>
               {Object.keys(months).map(
                 (id): ReactNode => (
-                  <option value={id}>{months[id]}</option>
+                  <option key={id} value={id}>
+                    {months[id]}
+                  </option>
                 )
               )}
             </Select>
@@ -134,7 +136,9 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           >
             <Select placeholder='Day' {...register('day')}>
               {days.map((day: number) => (
-                <option value={day}>{day}</option>
+                <option key={day} value={day}>
+                  {day}
+                </option>
               ))}
             </Select>
             <FormErrorMessage>{formState.errors.day?.message}</FormErrorMessage>
@@ -147,7 +151,9 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
           >
             <Select placeholder='Year' {...register('year')}>
               {years.map((year: number) => (
-                <option value={year}>{year}</option>
+                <option key={year} value={year}>
+                  {year}
+                </option>
               ))}
             </Select>
             <FormErrorMessage>{formState.errors.year?.message}</FormErrorMessage>
@@ -179,7 +185,9 @@ const PersonalInfoForm: FunctionComponent<PropsType> = (props: PropsType) => {
             <FormLabel>Country</FormLabel>
             <Select id='country' defaultValue={1} {...register('country')}>
               {Object.keys(countries).map((id) => (
-                <option value={id}>{countries[id]}</option>
+                <option key={id} value={id}>
+                  {countries[id]}
+                </option>
               ))}
             </Select>
             <FormErrorMessage>{formState.errors.country?.message}</FormErrorMessage>
