@@ -1,14 +1,12 @@
 export type PersonalInfoFormType = {
-    first_name: string;
-    last_name: string;
-    address1: string;
-    address2: string;
+    name: string;
+    address: string;
     month: string;
-    date: string;
+    day: string;
     year: string;
     city: string;
     country: string;
-    province: string;
-    postal_code: string;
+    state: string;
+    code: string;
   };
   

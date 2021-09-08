@@ -1,5 +1,5 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo, useContext } from 'react';
+import React, { FunctionComponent, memo, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 // SHARED IMPORTS
@@ -13,9 +13,9 @@ const SignUpPage: FunctionComponent = () => {
   const router = useRouter();
   const authContext = useContext(AuthContext);
 
-  if (authContext.user) {
-    router.push('/');
-  }
+  useEffect((): void => {
+    if (authContext.user) router.push('/');
+  }, [authContext.user]);
 
   return <SignUp />;
 };

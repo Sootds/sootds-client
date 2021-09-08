@@ -1,16 +1,46 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo, useState } from 'react';
-import { Button, Flex, Stack, Progress, Circle, Fade } from '@chakra-ui/react';
+import React, { FunctionComponent, memo, useContext, useState, useEffect } from 'react';
+import { Flex, Fade } from '@chakra-ui/react';
 
 // SHARED IMPORTS
+import { AuthContext } from '../../shared/context';
 import { navbarHeight } from '../../shared/constants';
 
 // LOCAL IMPORTS
-import { PersonalInfoForm, VerifyPhoneForm, StoreForm, BillingForm } from './components'
-import { VENDOR_STEPS } from './constants';
+import {
+  PersonalInfoForm,
+  StoreInfoForm,
+  BillingInfoForm,
+  CreateVendorStoreComplete
+} from './components';
+import { PersonalInfoType, StoreInfoType } from './types';
+import { CreateVendorStoreSteps } from './enums';
+import { createVendorStoreFetcher } from './fetchers';
 
 const CreateVendorStore: FunctionComponent = () => {
-  const [vendorStep, setVendorStep] = useState<number>(VENDOR_STEPS.PERSONAL_INFO_FORM);
+  const authContext = useContext(AuthContext);
+  const [step, setStep] = useState<number>(CreateVendorStoreSteps.PersonalInfoForm);
+  const [personalInfo, setPersonalInfo] = useState<PersonalInfoType | null>(null);
+  const [storeInfo, setStoreInfo] = useState<StoreInfoType | null>(null);
+
+  useEffect((): void => {
+    if (authContext.user) setPersonalInfo({ name: authContext.user.name });
+  }, [authContext.user]);
+
+  useEffect((): void => {
+    const createVendorStore = async (): Promise<void> => {
+      await createVendorStoreFetcher(
+        personalInfo,
+        storeInfo,
+        authContext.user.username,
+        authContext.accessToken
+      );
+    };
+
+    if (step === CreateVendorStoreSteps.CreateVendorStoreComplete) {
+      createVendorStore();
+    }
+  }, [step]);
 
   return (
     <Flex
@@ -28,24 +58,28 @@ const CreateVendorStore: FunctionComponent = () => {
         boxShadow={{ base: 'none', md: 'md' }}
         transition='height 1s ease-in'
       >
-        {vendorStep == VENDOR_STEPS.PERSONAL_INFO_FORM && (
+        {step == CreateVendorStoreSteps.PersonalInfoForm && (
           <Fade in={true}>
-            <PersonalInfoForm setVendorStep={setVendorStep} />
+            <PersonalInfoForm
+              personalInfo={personalInfo}
+              setPersonalInfo={setPersonalInfo}
+              setStep={setStep}
+            />
           </Fade>
         )}
-        {vendorStep == VENDOR_STEPS.VERIFY_PHONE_FORM && (
+        {step == CreateVendorStoreSteps.StoreInfoForm && (
           <Fade in={true}>
-            <VerifyPhoneForm setVendorStep={setVendorStep}/>
+            <StoreInfoForm storeInfo={storeInfo} setStoreInfo={setStoreInfo} setStep={setStep} />
           </Fade>
         )}
-        {vendorStep == VENDOR_STEPS.STORE_FORM && (
+        {step == CreateVendorStoreSteps.BillingInfoForm && (
           <Fade in={true}>
-            <StoreForm setVendorStep={setVendorStep}/>
+            <BillingInfoForm setStep={setStep} />
           </Fade>
         )}
-        {vendorStep == VENDOR_STEPS.BILLING_FORM && (
+        {step == CreateVendorStoreSteps.CreateVendorStoreComplete && (
           <Fade in={true}>
-            <BillingForm setVendorStep={setVendorStep}/>
+            <CreateVendorStoreComplete personalInfo={personalInfo} storeInfo={storeInfo} />
           </Fade>
         )}
       </Flex>
