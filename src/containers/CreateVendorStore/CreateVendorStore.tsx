@@ -7,9 +7,15 @@ import { AuthContext } from '../../shared/context';
 import { navbarHeight } from '../../shared/constants';
 
 // LOCAL IMPORTS
-import { PersonalInfoForm, StoreInfoForm, BillingInfoForm, CreateVendorStoreComplete } from './components';
+import {
+  PersonalInfoForm,
+  StoreInfoForm,
+  BillingInfoForm,
+  CreateVendorStoreComplete
+} from './components';
 import { PersonalInfoType, StoreInfoType } from './types';
 import { CreateVendorStoreSteps } from './enums';
+import { createVendorStoreFetcher } from './fetchers';
 
 const CreateVendorStore: FunctionComponent = () => {
   const authContext = useContext(AuthContext);
@@ -20,6 +26,21 @@ const CreateVendorStore: FunctionComponent = () => {
   useEffect((): void => {
     if (authContext.user) setPersonalInfo({ name: authContext.user.name });
   }, [authContext.user]);
+
+  useEffect((): void => {
+    const createVendorStore = async (): Promise<void> => {
+      await createVendorStoreFetcher(
+        personalInfo,
+        storeInfo,
+        authContext.user.username,
+        authContext.accessToken
+      );
+    };
+
+    if (step === CreateVendorStoreSteps.CreateVendorStoreComplete) {
+      createVendorStore();
+    }
+  }, [step]);
 
   return (
     <Flex
