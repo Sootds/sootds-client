@@ -17,7 +17,7 @@ const SignInPage: FunctionComponent = () => {
     if (authContext.user) router.push('/');
   }, [authContext.user]);
 
-  return <SignIn />;
+  return !authContext.user ? <SignIn /> : null;
 };
 
 // Display Name

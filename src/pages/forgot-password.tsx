@@ -17,7 +17,7 @@ const ForgotPasswordPage: FunctionComponent = () => {
     if (authContext.user) router.push('/');
   }, [authContext.user]);
 
-  return <ForgotPassword />;
+  return !authContext.user ? <ForgotPassword /> : null;
 };
 
 // Display Name
