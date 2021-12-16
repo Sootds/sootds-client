@@ -32,7 +32,7 @@ export const AuthContext = createContext<AuthContextType | null>(null);
 
 // Component
 const AuthContextProvider: FunctionComponent<PropsType> = (props: PropsType) => {
-  const [isLoading, setIsLoading] = useState<boolean>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserType | null>(null);
 
