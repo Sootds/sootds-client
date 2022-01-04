@@ -13,6 +13,12 @@ export const navLinks: Array<NavLink> = [
     showIfNotAuth: true
   },
   {
+    pageRoute: '/settings',
+    pageName: 'Settings',
+    showIfAuth: true,
+    showIfNotAuth: false,
+  },
+  {
     pageRoute: '/signin',
     pageName: 'Sign In',
     showIfAuth: false,
