@@ -4,3 +4,4 @@ export { default as SignIn } from './SignIn';
 export { default as ForgotPassword } from './ForgotPassword';
 export { default as CreateVendorStore } from './CreateVendorStore';
 export { default as FirstSignIn } from './FirstSignIn';
+export { default as Settings } from './Settings';
