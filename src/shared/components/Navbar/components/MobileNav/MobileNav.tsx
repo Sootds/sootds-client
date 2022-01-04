@@ -17,9 +17,9 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import { AuthContext } from '../../../../context';
 
 // LOCAL IMPORTS
-import { Logo, NavItem } from '../';
+import { NavLinkType } from '../../../../types';
+import { Logo, NavLink } from '../';
 import { navLinks } from '../../../../constants';
-import type { NavLink } from '../../../../constants';
 
 // Component
 const MobileNav: FunctionComponent = () => {
@@ -43,13 +43,13 @@ const MobileNav: FunctionComponent = () => {
           </DrawerHeader>
           <DrawerBody>
             <Stack direction='column' spacing='4'>
-              {navLinks.map((navLink: NavLink, index: number) =>
+              {navLinks.map((navLink: NavLinkType, index: number) =>
                 (authContext.user && navLink.showIfAuth) ||
                 (!authContext.user && navLink.showIfNotAuth) ||
                 (!authContext.user && navLink.showIfAuth && navLink.showIfNotAuth) ? (
-                  <NavItem key={index} href={navLink.pageRoute}>
+                  <NavLink key={index} href={navLink.pageRoute}>
                     {navLink.pageName}
-                  </NavItem>
+                  </NavLink>
                 ) : null
               )}
             </Stack>

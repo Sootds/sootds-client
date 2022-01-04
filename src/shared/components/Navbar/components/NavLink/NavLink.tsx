@@ -10,7 +10,7 @@ type PropsType = {
 };
 
 // Component
-const NavItem: FunctionComponent<PropsType> = (props: PropsType) => (
+const NavLink: FunctionComponent<PropsType> = (props: PropsType) => (
   <Box width='fit-content' height='fit-content' >
     <NextLink href={props.href}>
       <Link>{props.children}</Link>
@@ -19,6 +19,6 @@ const NavItem: FunctionComponent<PropsType> = (props: PropsType) => (
 );
 
 // Display Name
-NavItem.displayName = NavItem.name;
+NavLink.displayName = NavLink.name;
 
-export default memo(NavItem);
+export default memo(NavLink);
