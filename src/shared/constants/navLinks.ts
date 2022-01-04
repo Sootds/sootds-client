@@ -1,37 +1,34 @@
-export type NavLink = {
-  pageRoute: string;
-  pageName: string;
-  showIfAuth: boolean;
-  showIfNotAuth: boolean;
-};
+// SHARED IMPORTS
+import { NavLinkType } from '../types';
+import * as pageRoutes from '../constants/pageRoutes';
 
-export const navLinks: Array<NavLink> = [
+export const navLinks: Array<NavLinkType> = [
   {
-    pageRoute: '/',
+    pageRoute: pageRoutes.HOME_PAGE,
     pageName: 'Home',
     showIfAuth: true,
     showIfNotAuth: true
   },
   {
-    pageRoute: '/settings',
+    pageRoute: pageRoutes.SETTINGS_PAGE,
     pageName: 'Settings',
     showIfAuth: true,
-    showIfNotAuth: false,
+    showIfNotAuth: false
   },
   {
-    pageRoute: '/signin',
+    pageRoute: pageRoutes.SIGNIN_PAGE,
     pageName: 'Sign In',
     showIfAuth: false,
     showIfNotAuth: true
   },
   {
-    pageRoute: '/signup',
+    pageRoute: pageRoutes.SIGNUP_PAGE,
     pageName: 'Sign Up',
     showIfAuth: false,
     showIfNotAuth: true
   },
   {
-    pageRoute: '/signout',
+    pageRoute: pageRoutes.SIGNOUT_PAGE,
     pageName: 'Sign Out',
     showIfAuth: true,
     showIfNotAuth: false
