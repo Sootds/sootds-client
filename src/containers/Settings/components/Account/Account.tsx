@@ -21,7 +21,7 @@ type PropsType = {
 };
 
 // Component
-const AccountTab: FunctionComponent<PropsType> = (props: PropsType) => {
+const Account: FunctionComponent<PropsType> = (props: PropsType) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userInfo, setUserInfo] = useState<UserInfoType | null>(null);
   const [countries, setCountries] = useState<Array<CountryType> | null>(null);
@@ -109,6 +109,6 @@ const AccountTab: FunctionComponent<PropsType> = (props: PropsType) => {
 };
 
 // Display Name
-AccountTab.displayName = AccountTab.name;
+Account.displayName = Account.name;
 
-export default memo(AccountTab);
+export default memo(Account);
