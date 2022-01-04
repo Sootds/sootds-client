@@ -3,13 +3,13 @@ import React, { FunctionComponent, memo, useContext, useEffect } from 'react';
 import { useRouter } from 'next/router';
 
 // SHARED IMPORTS
-import { AuthContext } from '../shared/context';
+import { AuthContext } from '../../shared/context';
 
 // LOCAL IMPORTS
-import { Settings } from '../containers';
+import { Settings } from '../../containers';
 
 // Component
-const SettingsPage: FunctionComponent = () => {
+const AccountPage: FunctionComponent = () => {
   const router = useRouter();
   const authContext = useContext(AuthContext);
 
@@ -17,10 +17,12 @@ const SettingsPage: FunctionComponent = () => {
     if (!authContext.user) router.push('/');
   }, [authContext.user]);
 
-  return authContext.user ? <Settings username={authContext.user.username} accessToken={authContext.accessToken} /> : null;
+  return authContext.user ? (
+    <Settings username={authContext.user.username} accessToken={authContext.accessToken} />
+  ) : null;
 };
 
 // Display Name
-SettingsPage.displayName = SettingsPage.name;
+AccountPage.displayName = AccountPage.name;
 
-export default memo(SettingsPage);
+export default memo(AccountPage);
