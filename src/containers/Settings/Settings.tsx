@@ -21,7 +21,12 @@ const Settings: FunctionComponent<PropsType> = (props: PropsType) => {
   const router = useRouter();
 
   return (
-    <Flex width='100%' height={`calc(100vh - ${navbarHeight})`} flexDirection='column'>
+    <Flex
+      width='100%'
+      height={`calc(100vh - ${navbarHeight})`}
+      paddingTop={8}
+      flexDirection='column'
+    >
       <Heading children='Settings' />
       <Flex width='100%' height='100%'>
         <Sidebar pathname={router.pathname} />
