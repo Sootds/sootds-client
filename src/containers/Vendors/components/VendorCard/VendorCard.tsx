@@ -20,7 +20,7 @@ const VendorCard: FunctionComponent = () => {
           voluptatibus, ipsam rem mollitia, id dolorem.
         </Text>
         <Stack direction='row'>
-          <Button colorScheme='purple'>View Store</Button>
+          <Button colorScheme='purple'>Visit</Button>
           <Button colorScheme='blue'>Follow</Button>
         </Stack>
       </Stack>
