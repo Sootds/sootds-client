@@ -1,10 +1,18 @@
 // EXTERNAL IMPORTS
-import React, { FunctionComponent, memo } from 'react';
+import React, { FunctionComponent, memo, useContext } from 'react';
+
+// SHARED IMPORTS
+import { AuthContext } from '../../shared/context';
+
+// LOCAL IMPORTS
+import { Vendors } from '../../containers';
 
 // Component
 const VendorsPage: FunctionComponent = () => {
-  return <p>vendors page</p>
-}
+  // const authContext = useContext(AuthContext);
+
+  return <Vendors />;
+};
 
 // Display Name
 VendorsPage.displayName = VendorsPage.name;
