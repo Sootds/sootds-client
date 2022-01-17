@@ -5,3 +5,4 @@ export { default as ForgotPassword } from './ForgotPassword';
 export { default as FirstSignIn } from './FirstSignIn';
 export { default as Settings } from './Settings';
 export { default as Vendors } from './Vendors';
+export { default as Stores } from './Stores';
