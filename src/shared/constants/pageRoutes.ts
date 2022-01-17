@@ -5,6 +5,7 @@ export const SIGNOUT_PAGE = `/signout`;
 export const HOME_PAGE = `/`;
 export const VENDORS_PAGE = `/vendors`;
 export const VENDOR_SIGNUP_PAGE = `/vendors/signup`;
+export const STORES_PAGE = `/stores`;
 
 export const SETTINGS_PAGE = `/settings`;
 export const SETTINGS_ACCOUNT_PAGE = `/settings/account`;

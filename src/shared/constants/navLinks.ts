@@ -16,6 +16,12 @@ export const navLinks: Array<NavLinkType> = [
     showIfNotAuth: true
   },
   {
+    pageRoute: pageRoutes.STORES_PAGE,
+    pageName: 'Stores',
+    showIfAuth: true,
+    showIfNotAuth: true
+  },
+  {
     pageRoute: pageRoutes.SETTINGS_PAGE,
     pageName: 'Settings',
     showIfAuth: true,
